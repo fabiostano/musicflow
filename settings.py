@@ -1,9 +1,9 @@
 from os import environ
 SESSION_CONFIG_DEFAULTS = dict(real_world_currency_per_point=1, participation_fee=15)
-SESSION_CONFIGS = [dict(name='full', num_demo_participants=2, app_sequence=['Intro', 'Music_Discovery', 'Outro']),
+SESSION_CONFIGS = [dict(name='full', num_demo_participants=2, app_sequence=['Intro', 'Research', 'Transcription', 'Outro']),
                    dict(name='Intro', num_demo_participants=None, app_sequence=['Intro']),
                    dict(name='outro', num_demo_participants=None, app_sequence=['Outro']),
-                   dict(name='discovery', num_demo_participants=None, app_sequence=['Music_Discovery'])]
+                   dict(name='research', num_demo_participants=None, app_sequence=['Research'])]
 LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'EUR'
 USE_POINTS = False
@@ -21,8 +21,8 @@ SECRET_KEY = 'blahblah'
 # if an app is included in SESSION_CONFIGS, you don't need to list it here
 INSTALLED_APPS = ['otree']
 
-DEBUG = False
+DEBUG = True
 
 OTREE_AUTH_LEVEL = 'STUDY'
 
-OTREE_PRODUCTION = True
+OTREE_PRODUCTION = False

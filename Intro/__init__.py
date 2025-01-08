@@ -15,16 +15,7 @@ class Group(BaseGroup):
     pass
 
 class Player(BasePlayer):
-    # ----- REST ACTIONS ----- #
-    rest_actions_eo = models.StringField(label="")
-    rest_actions_ec = models.StringField(label="")
-
     # ----- DEMOGRAPHICS ----- #
-    handedness = models.StringField(
-        label='Which one is your dominant hand?',
-        choices=["Left", "Right", "Both (Ambidextrous)"]
-    )
-
     english = models.StringField(
         label='Please indicate the level of your English language proficiency.',
         choices=["A1 Beginner – I can understand and use familiar everyday expressions and very basic phrases.",
@@ -49,44 +40,47 @@ class Player(BasePlayer):
         choices=["Apprentice", "Student", "Employee", "Entrepreneur", "Other"]
     )
 
-    # ----- FATIGUE ----- #
-    fatigue_state = models.StringField(
-        label='How tired/awake are you right now?',
-        choices=['Fully alert, wide awake ',
-                 'Very lively, responsive, but not at peak',
-                 'Okay, somewhat fresh',
-                 'A little tired, less than fresh',
-                 'Moderately tired, let down',
-                 'Extremely tired, very difficult to concentrate',
-                 'Completely exhausted, unable to function effectively']
-    )
+    ### --- STATE Q --- ###
+    # ----- Mental Readiness ----- #
+    mr1 = models.IntegerField(label="How are you feeling right now?",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+    mr2 = models.IntegerField(label="How sleepy are you feeling right now?.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+    mr3 = models.IntegerField(label="How motivated are you feeling right now?",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
 
     # ----- Pleasure & Arousal ----- #
-    pleasure = models.IntegerField(label="test", choices=[[1, '1'], [2, '2'], [3, '4'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
+    pleasure = models.IntegerField(label="test", choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
+    arousal = models.IntegerField(label="test", choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
 
-    arousal = models.IntegerField(label="test", choices=[[1, '1'], [2, '2'], [3, '4'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
+    # ----- Mental Fatigue ----- #
+    mf1 = models.IntegerField(label="If I were to do someting right now, I could keep my thoughts focused on it.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+    mf2 = models.IntegerField(label="Right now, I could concentrate well.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+    mf3 = models.IntegerField(label="Currently, it would take a lot of effort to concentrate on something.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+    mf4 = models.IntegerField(label="My thoughts would easily wander off at the moment.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
 
     # ----- Payout Token ----- #
     pay_tok = models.StringField(label='Please enter the token we gave you before.')
 
 
+
 class Welcome(Page):
     form_model = 'player'
 
+class StudyExplanation(Page):
+    form_model = 'player'
 
 class IntroQuestionnaire(Page):
     form_model = 'player'
-    form_fields = ['gender', 'age', 'handedness', 'english', 'fatigue_state', 'occupation', 'pleasure', 'arousal']
+    form_fields = ['gender', 'age', 'english', 'occupation']
 
-
-class RestEO(Page):
+class StateQuestionnaire(Page):
     form_model = 'player'
-    form_fields = ['rest_actions_eo']
+    form_fields = ['pleasure', 'arousal', 'readiness']
 
 
-class RestEC(Page):
-    form_model = 'player'
-    form_fields = ['rest_actions_ec']
-
-
-page_sequence = [Welcome, IntroQuestionnaire, RestEO, RestEC]
+page_sequence = [Welcome, IntroQuestionnaire, StudyExplanation, StateQuestionnaire]
