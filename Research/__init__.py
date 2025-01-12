@@ -158,6 +158,21 @@ class Instructions(Page):
 class Task(Page):
     form_model = 'player'
 
+    def vars_for_template(player):
+        paper_url_map = {
+            "Highlighting Strategies for Better Reading": "highlighting_strategies.pdf",
+            "Letting Machines Handle the Small Stuff": "ems_background.pdf",
+            "The Hidden Risks of Mental Health Apps": "mental_health_apps.pdf",
+            "Follow Your Daily Goals with Self-Voice Alarms": "self_voice.pdf",
+            "Voice-Based Online Dating Apps": "voice_dating.pdf",
+            "TikTok and Mental Health: Laughing Through Hard Times": "tik_tok_mental_health.pdf",
+            "Gen Z and Online Information Trust": "genz_truth.pdf",
+            "Gaming Without Sight: How the Blind Play Mainstream Games": "blind_gaming.pdf"
+        }
+        selected_paper = player.selected_paper
+        pdf_url = paper_url_map.get(selected_paper, "blind_gaming.pdf")
+        return {"pdf_url": pdf_url}
+
 class TaskQuestionnaire(Page):
     form_model = 'player'
 

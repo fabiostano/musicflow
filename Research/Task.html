@@ -1,23 +1,88 @@
-{{ extends 'global/Page.html' }}
+{{ extends "otree/Page.html" }}
 
 {{ block title }}
 
-    <div class="d-flex justify-content-center" style="margin-top: -50px">
-        <h2 style="margin-bottom:20px">TRANSCRIPTION TASK: INSTRUCTIONS</h2>
-    </div>
+<div class="d-flex justify-content-center" style="margin-top: -20px">
+    <h2 style="margin-bottom:20px; color:whitesmoke">RESEARCH TASK</h2>
+</div>
 
 {{ endblock }}
 
 {{ block content }}
-
-    <div class="explanation-container">
-        <h4> Transcription Task </h4>
-        <p>Test</p>
+<div class="split-screen">
+    <!-- PDF Viewer -->
+    <div class="pdf-container">
+        <iframe src="/static/papers/{{ pdf_url }}#toolbar=0&navpanes=0&scrollbar=1&zoom=134" title="PDF Viewer"></iframe>
     </div>
 
-
-    <div class="d-flex justify-content-center">
-        <button class="otree-btn-next btn btn-primary next-button otree-next-button">Next</button>
+    <!-- Text Input Area -->
+    <div class="text-container">
+        <textarea placeholder="Take notes here..."></textarea>
     </div>
+</div>
+
+{{ endblock }}
+
+{{ block scripts }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js"></script>
+{{ endblock }}
+
+{{ block style }}
+
+<style>
+    @media (min-width: 1200px) {
+        .container {
+            width: 1950px !important;
+        }
+    }
+    .otree-body {
+        max-width: 1950px;
+    }
+
+    body {
+        background-color: black;
+    }
+
+    .split-screen {
+        display: flex;
+        height: 1050px;
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+        margin-top: 20px;
+        max-width: 1950px;
+        font-size: 16px;
+    }
+    .pdf-container {
+        width: 60%;
+        height: 100%;
+        overflow: hidden;
+        padding: 15px;
+    }
+    .pdf-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 10px;
+    }
+    .text-container {
+        width: 40%;
+        height: 100%;
+        padding: 15px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+    }
+    .text-container textarea {
+        width: 100%;
+        height: 100%;
+        resize: none;
+        border: 1px solid #ccc;
+        padding: 10px;
+        font-size: 16px;
+        box-sizing: border-box;
+        border-radius: 10px;
+    }
+</style>
 
 {{ endblock }}

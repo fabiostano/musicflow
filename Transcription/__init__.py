@@ -1,7 +1,8 @@
 
 from otree.api import *
 import random
-import pandas as pd
+from os import walk
+from os.path import join
 c = cu
 
 doc = ''
@@ -13,11 +14,30 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
+def creating_session(subsession: Subsession):
+    # Get all the snippets
+    root = '_static/snippets/'
+    trans_imgs = [join(path, name) for path, subdirs, files in walk(root) for name in files]
+    # Remove the '_static/' part again
+    trans_imgs = [s.replace('_static/', '') for s in trans_imgs]
+    # Remove other files
+    trans_imgs = [f for f in trans_imgs if (f.endswith('.jpg') | f.endswith('.png'))]
+
+    # Shuffle the snippets
+    random.shuffle(trans_imgs)
+
+    for p in subsession.get_players():
+        p.participant.trans_imgs_solo = trans_imgs
+
 class Group(BaseGroup):
     pass
 
 class Player(BasePlayer):
     time_start = models.StringField()
+
+    # ---- Task Actions ---- #
+    trans_actions = models.LongStringField(blank=True)
+    snippet_list = models.LongStringField(blank=True)
 
     ### --- STATE Q --- ###
 
@@ -117,12 +137,50 @@ class Instructions(Page):
 
 class Task(Page):
     form_model = 'player'
+    form_fields = ['trans_actions', 'snippet_list']
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        imageList = player.participant.trans_imgs_solo
+        random.shuffle(imageList)
+
+        return {
+            "imageList": imageList,
+            "trialTime": 10 * 60
+        }
 
 class TaskQuestionnaire(Page):
     form_model = 'player'
+    all_fields = []
+
+    @staticmethod
+    def get_form_fields(player: Player):
+        import random
+        flow_fields = []
+        random.shuffle(flow_fields)
+        flow_fields += []
+        all_fields = flow_fields
+
+        tlx_fields = []
+        all_fields += tlx_fields
+
+        return all_fields
 
 class StateQuestionnaire(Page):
     form_model = 'player'
+    all_fields = []
+
+    @staticmethod
+    def get_form_fields(player: Player):
+        import random
+        flow_fields = []
+        random.shuffle(flow_fields)
+        all_fields = flow_fields
+
+        tlx_fields = []
+        all_fields += tlx_fields
+
+        return all_fields
 
 class Done(Page):
     form_model = 'player'
