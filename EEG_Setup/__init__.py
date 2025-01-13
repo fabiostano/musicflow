@@ -7,7 +7,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'EEG'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
-    DURATION = 5
+    DURATION = 60
 
 class Subsession(BaseSubsession):
     pass
