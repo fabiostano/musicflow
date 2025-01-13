@@ -151,7 +151,7 @@ class Task(Page):
 
         return {
             "imageList": imageList,
-            "trialTime": 0.1 * 60,
+            "trialTime": 10 * 60,
             "treatment": player.treatment,
             "playlist": player.participant.playlist,
             "round_number": player.round_number

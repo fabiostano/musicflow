@@ -1,7 +1,7 @@
 from os import environ
 SESSION_CONFIG_DEFAULTS = dict(real_world_currency_per_point=1, participation_fee=15)
-SESSION_CONFIGS = [dict(name='full_research_first', num_demo_participants=2, app_sequence=['Intro', 'Research', 'Transcription', 'Outro']),
-                   dict(name='full_transcription_first', num_demo_participants=2, app_sequence=['Intro', 'Transcription', 'Research', 'Outro']),
+SESSION_CONFIGS = [dict(name='full_research_first', num_demo_participants=2, app_sequence=['Intro', 'EEG_Setup', 'Research', 'Transcription', 'Outro']),
+                   dict(name='full_transcription_first', num_demo_participants=2, app_sequence=['Intro', 'EEG_Setup', 'Transcription', 'Research', 'Outro']),
                    dict(name='Intro', num_demo_participants=None, app_sequence=['EEG_Setup']),
                    dict(name='outro', num_demo_participants=None, app_sequence=['Outro']),
                    dict(name='research', num_demo_participants=None, app_sequence=['Research']),
