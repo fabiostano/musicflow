@@ -271,6 +271,7 @@ class ThankYou(Page):
     form_fields = ['name', 'IBAN', 'BIC']
 
 class TraitQuestionnaire(Page):
+    form_model = 'player'
     @staticmethod
     def get_form_fields(player: Player):
         import random
@@ -278,7 +279,7 @@ class TraitQuestionnaire(Page):
         random.shuffle(flow_fields)
         all_fields = flow_fields
 
-        ext_fields = ['e1', 'e2', 'e3', 'e4', 'e5', 'e6']
+        ext_fields = ['e1', 'e2', 'e3', 'e4', 'e5']
         random.shuffle(ext_fields)
         all_fields += ext_fields
 
@@ -286,17 +287,13 @@ class TraitQuestionnaire(Page):
         random.shuffle(domain_fields)
         all_fields += domain_fields
 
-        mwt_fields = ['mwt1', 'mwt2', 'mwt3', 'mwt4', 'mwt5', 'mwt6', 'mwt7', 'mwt8', 'mwt9', 'mwt10']
+        mwt_fields = ['mwt01', 'mwt02', 'mwt03', 'mwt04', 'mwt05', 'mwt06', 'mwt07', 'mwt08', 'mwt09', 'mwt10']
         random.shuffle(mwt_fields)
-        all_fields = mwt_fields
+        all_fields += mwt_fields
 
         mt_g_fields = ['mt_g_01', 'mt_g_02', 'mt_g_03', 'mt_g_04']
         random.shuffle(mt_g_fields)
-        all_fields = mt_g_fields
-
-
-
-        all_fields += ['tlx', 'control_text_interest', 'control_music_liking', 'control_music_turnoff']
+        all_fields += mt_g_fields
 
         return all_fields
 

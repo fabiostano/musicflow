@@ -23,8 +23,8 @@ SECRET_KEY = 'blahblah'
 # if an app is included in SESSION_CONFIGS, you don't need to list it here
 INSTALLED_APPS = ['otree']
 
-DEBUG = True
+DEBUG = False
 
 OTREE_AUTH_LEVEL = 'STUDY'
 
-OTREE_PRODUCTION = False
+OTREE_PRODUCTION = True

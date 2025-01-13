@@ -120,18 +120,19 @@ class Player(BasePlayer):
 
     # ----- Misc Controls ----- #
     control_music_liking = models.IntegerField(label="I liked the background music.",
-                                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
+                                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6']], widget=widgets.RadioSelectHorizontal)
     control_music_turnoff = models.IntegerField(label="If it would have been possible, I would have turned off the music.",
-                                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
+                                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6']], widget=widgets.RadioSelectHorizontal)
 
 
 
 class Instructions(Page):
     form_model = 'player'
 
-    def is_displayed(player):
-        return player.round_number == 1
-
+    def vars_for_template(player: Player):
+        return {
+            "round_number": player.round_number,
+        }
     def before_next_page(player, timeout_happened):
         if player.round_number == 1:
             player.treatment = player.participant.treat_order[0]

@@ -91,5 +91,4 @@ class MusicSelection(Page):
         random.shuffle(treat_order)
         player.participant.treat_order = treat_order
 
-# page_sequence = [Welcome, IntroQuestionnaire, StateQuestionnaire, MusicSelection]
-page_sequence = [MusicSelection]
+page_sequence = [Welcome, IntroQuestionnaire, StateQuestionnaire, MusicSelection]
