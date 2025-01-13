@@ -152,7 +152,8 @@ class Task(Page):
             "imageList": imageList,
             "trialTime": 0.1 * 60,
             "treatment": player.treatment,
-            "playlist": player.participant.playlist
+            "playlist": player.participant.playlist,
+            "round_number": player.round_number
         }
 
 

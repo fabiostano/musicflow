@@ -47,7 +47,6 @@ class Player(BasePlayer):
     notes = models.LongStringField(blank=True)
     load_time = models.IntegerField(blank=True)
 
-
     selected_paper = models.StringField(
         choices=['Highlighting Strategies for Better Reading',
                  'Letting Machines Handle the Small Stuff',
@@ -140,20 +139,51 @@ class Player(BasePlayer):
 
 
 
-class Instructions(Page):
+class Instructions1(Page):
     form_model = 'player'
     form_fields = ["selected_paper"]
 
+    def is_displayed(player):
+        return player.round_number == 1
+
     def vars_for_template(player):
         return {
-            "papers": C.PAPERS
+            "papers": C.PAPERS,
+            "round_number": player.round_number
         }
 
     def before_next_page(player, timeout_happened):
-        if player.round_number == 1:
-            player.treatment = player.participant.treat_order[0]
-        if player.round_number == 2:
-            player.treatment = player.participant.treat_order[1]
+        player.participant.paper_r1 = player.selected_paper
+
+        treatments = ['music', 'control']
+        random.shuffle(treatments)
+
+        player.participant.treat_order = treatments
+        player.treatment = player.participant.treat_order[0]
+
+
+class Instructions2(Page):
+    form_model = 'player'
+    form_fields = ["selected_paper"]
+
+    def is_displayed(player):
+        return player.round_number == 2
+
+
+    def vars_for_template(player):
+        return {
+            "papers": C.PAPERS,
+            "round_number": player.round_number,
+            "paper_r1": player.participant.paper_r1
+        }
+
+    def before_next_page(player, timeout_happened):
+        player.participant.paper_r1 = player.selected_paper
+
+        player.treatment = player.participant.treat_order[1]
+
+
+
 
 class Task(Page):
     form_model = 'player'
@@ -207,5 +237,5 @@ class Done(Page):
         return player.round_number == C.NUM_ROUNDS
 
 
-#page_sequence = [Instructions, Task, TaskQuestionnaire, StateQuestionnaire, Done]
-page_sequence = [Instructions, Task]
+page_sequence = [Instructions1, Instructions2, Task, TaskQuestionnaire, StateQuestionnaire, Done]
+

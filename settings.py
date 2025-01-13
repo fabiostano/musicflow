@@ -10,7 +10,7 @@ LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'EUR'
 USE_POINTS = False
 DEMO_PAGE_INTRO_HTML = ''
-PARTICIPANT_FIELDS = ['trans_imgs_solo', 'playlist', 'treat_order']
+PARTICIPANT_FIELDS = ['trans_imgs_solo', 'playlist', 'treat_order', 'paper_r1']
 SESSION_FIELDS = []
 ROOMS = [dict(name='my_room', display_name='my_room')]
 

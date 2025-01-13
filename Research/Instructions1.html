@@ -3,7 +3,7 @@
 {% block title %}
 
     <div class="d-flex justify-content-center" style="margin-top: -50px">
-        <h2 style="margin-bottom:20px">RESEARCH TASK: INSTRUCTIONS</h2>
+        <h2 style="margin-bottom:20px">RESEARCH TASK: ROUND {{ round_number }}</h2>
     </div>
 
 {% endblock %}
@@ -25,13 +25,11 @@
             if it is clear, that you have genuinely tried to give your best effort to prepare for the meeting. </p>
     </div>
 
+    {{ if round_number == 1}}
+
     <div class="survey-container">
         <h4>To make the experience more enjoyable for you, you can select which of the following papers you want to
             work on:</h4>
-        {% for value, label in papers %}
-
-        {% endfor %}
-
         <form method="post">
     <table>
         {% for paper in papers %}
@@ -50,6 +48,36 @@
     </table>
 </form>
     </div>
+
+    {{ endif }}
+
+    {{ if round_number == 2}}
+
+    <div class="survey-container">
+        <h4>To make the experience more enjoyable for you, you can select which of the following papers you want to
+            work on:</h4>
+        <form method="post">
+    <table>
+        {% for paper in papers %}
+        {{ if paper != paper_r1}}
+        <tr onclick="selectRow('{{ paper.0 }}')" style="cursor: pointer;">
+            <!-- Radio Button -->
+            <td style="padding: 20px">
+                <input type="radio" name="selected_paper" value="{{ paper.0 }}" id="{{ paper.0 }}">
+            </td>
+            <!-- Title and Summary -->
+            <td style="padding: 5px">
+                <strong>{{ paper.0 }}</strong><br>
+                {{ paper.1 }}
+            </td>
+        </tr>
+        {{ endif}}
+        {% endfor %}
+    </table>
+</form>
+    </div>
+
+    {{ endif }}
 
     <div class="d-flex justify-content-center">
         <button class="otree-btn-next btn btn-primary next-button otree-next-button">Next</button>
