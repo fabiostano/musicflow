@@ -1,0 +1,151 @@
+{{ extends 'global/Page.html' }}
+
+{{ block title }}
+
+<div class="d-flex justify-content-center" style="margin-top: -50px">
+    <h2 style="margin-bottom:20px">MUSIC SELECTION</h2>
+</div>
+
+{{ endblock }}
+
+{{ block content }}
+
+<div class="explanation-container">
+    <h4>We are almost ready to start!</h4>
+    <p>Before we start with the tasks, you must select the music that you want to listen to while working.</p>
+    <p>To make the scenario as realistic as possible, please select the playlist that you would most likely
+        listen to during your work (or studying) in a real-world case.</p>
+    <p>Below you find 4 different playlists of common study/work music. You can also play quick previews to get
+        a feeling for the music.</p>
+    <p>To select a playlist, just click on the cover image and then click "Next".</p>
+</div>
+
+<div class="survey-container">
+    <h3>Select a Playlist</h3>
+    <div class="playlist-container">
+        <div class="playlist" data-music="classical.mp3">
+            <img src="{% static 'music/classical.png' %}" alt="Classical Playlist">
+            <audio controls preload="metadata">
+                <source src="{% static 'music/classical.mp3' %}#t=30,40" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        <div class="playlist" data-music="house.mp3">
+            <img src="{% static 'music/house.png' %}" alt="House Playlist">
+            <audio controls preload="metadata">
+                <source src="{% static 'music/house.mp3' %}#t=30,40" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        <div class="playlist" data-music="jazz.mp3">
+            <img src="{% static 'music/jazz.png' %}" alt="Jazz Playlist">
+            <audio controls preload="metadata">
+                <source src="{% static 'music/jazz.mp3' %}#t=30,40" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        <div class="playlist" data-music="lofi.mp3">
+            <img src="{% static 'music/lofi.png' %}" alt="Lofi Playlist">
+            <audio controls preload="metadata">
+                <source src="{% static 'music/lofi.mp3' %}#t=30,40" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center">
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button" id="next-button" disabled>Next</button>
+</div>
+
+{{ endblock }}
+
+{{ block scripts }}
+
+<script>
+    const playlists = document.querySelectorAll('.playlist');
+    const nextButton = document.getElementById('next-button');
+    let selectedPlaylist = null;
+
+    // Handle playlist selection
+    playlists.forEach(playlist => {
+        playlist.addEventListener('click', () => {
+            // Remove 'selected' class from all playlists
+            playlists.forEach(p => p.classList.remove('selected'));
+            // Add 'selected' class to the clicked playlist
+            playlist.classList.add('selected');
+            // Enable the Next button
+            nextButton.disabled = false;
+            // Store the selected playlist
+            selectedPlaylist = playlist.getAttribute('data-music');
+        });
+    });
+
+    // Handle form submission when clicking Next
+    nextButton.addEventListener('click', () => {
+        if (selectedPlaylist) {
+            // Store the selected playlist in a hidden input for oTree submission
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'selected_playlist';
+            input.value = selectedPlaylist;
+            document.querySelector('form').appendChild(input);
+        }
+    });
+</script>
+
+{{ endblock }}
+
+
+{{ block style }}}
+<style>
+    h1 {
+        margin: 20px 0;
+    }
+    .playlist-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        padding: 20px;
+    }
+    .playlist {
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        flex: 1 1 calc(25% - 40px); /* Flexible, 4 items per row */
+        max-width: calc(25% - 40px);
+    }
+    .playlist img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+    .playlist.selected {
+        transform: scale(1.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    .audio-player-container {
+        margin-top: 20px;
+        padding: 10px;
+    }
+    audio {
+        width: 100%;
+        max-width: 400px;
+    }
+    button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+    }
+</style>
+{{ endblock }}

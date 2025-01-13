@@ -18,96 +18,101 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    email = models.StringField(blank=True)
+    name = models.StringField(blank=True)
+    IBAN = models.StringField(blank=True)
+    BIC = models.StringField(blank=True)
 
     ### --- TRAIT Q --- ###
 
     # ----- SDFS-2 ----- #
     sdfs1 = models.IntegerField(label="I feel I am competent enough to meet the demands of the situation",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     sdfs2 = models.IntegerField(label="I do things spontaneously and automatically without having to think.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     sdfs3 = models.IntegerField(label="I have a strong sense of what I want to do.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     sdfs4 = models.IntegerField(
         label="I have a good idea about how well I am doing while I am involved in the task/activity.",
-        choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+        choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     sdfs5 = models.IntegerField(label="I am completely focused on the task at hand.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     sdfs6 = models.IntegerField(label="I have a feeling of total control over what I am doing.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     sdfs7 = models.IntegerField(label="I am not worried about what others may be thinking of me.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     sdfs8 = models.IntegerField(label="The way time passes seems to be different from normal.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     sdfs9 = models.IntegerField(label="I find the experience extremely rewarding.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
 
     ac_sdfs = models.IntegerField(
         label='This is an attention check. Please select the answer on the far right.',
-        choices=[[1, ''], [2, ''], [3, ''], [4, ''], [5, '']])
+        choices=[[1, ''], [2, ''], [3, ''], [4, ''], [5, '']], widget=widgets.RadioSelectHorizontal)
 
     # ----- Extraversion ----- #
-    big_five_e1 = models.IntegerField(
+    e1 = models.IntegerField(
         label='I would describe myself as someone who is reserved.',
-        choices=[1, 2, 3, 4, 5])
-    big_five_e2 = models.IntegerField(
+        choices=[1, 2, 3, 4, 5], widget=widgets.RadioSelectHorizontal)
+    e2 = models.IntegerField(
         label='I would describe myself as someone who is talkative.',
-        choices=[1, 2, 3, 4, 5])
-    big_five_e3 = models.IntegerField(
+        choices=[1, 2, 3, 4, 5], widget=widgets.RadioSelectHorizontal)
+    e3 = models.IntegerField(
         label='I would describe myself as someone who generates a lot of enthusiasm.',
-        choices=[1, 2, 3, 4, 5])
-    big_five_e4 = models.IntegerField(
+        choices=[1, 2, 3, 4, 5], widget=widgets.RadioSelectHorizontal)
+    e4 = models.IntegerField(
         label='I would describe myself as someone who is outgoing/sociable.',
-        choices=[1, 2, 3, 4, 5])
-    big_five_e5 = models.IntegerField(
+        choices=[1, 2, 3, 4, 5], widget=widgets.RadioSelectHorizontal)
+    e5 = models.IntegerField(
         label='I would describe myself as someone who is sometimes shy/inhibited.',
-        choices=[1, 2, 3, 4, 5])
+        choices=[1, 2, 3, 4, 5], widget=widgets.RadioSelectHorizontal)
 
     # ------ Domain Expertise ------ #
     domain_exp_transcription = models.IntegerField(
         label="I am experienced in transcribing snippets of text.",
-        choices=[[1, '1'], [2, '2'], [3, '4'], [4, '4'], [5, '5']])
+        choices=[[1, '1'], [2, '2'], [3, '4'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
+    domain_exp_typing = models.IntegerField(
+        label="I am a fast typer.",
+        choices=[[1, '1'], [2, '2'], [3, '4'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     domain_exp_research = models.IntegerField(
         label="I am experienced in reading and working with scientific papers.",
-        choices=[[1, '1'], [2, '2'], [3, '4'], [4, '4'], [5, '5']])
+        choices=[[1, '1'], [2, '2'], [3, '4'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     domain_exp_reading = models.IntegerField(
-        label="I generally like reading.",
-        choices=[[1, '1'], [2, '2'], [3, '4'], [4, '4'], [5, '5']])
+        label="I generally like reading papers or articles.",
+        choices=[[1, '1'], [2, '2'], [3, '4'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
 
     # ----- Mind Wandering Trait ----- #
     mwt01 = models.IntegerField(label="I find my thoughts wandering spontaneously.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     mwt02 = models.IntegerField(label="My thoughts tend to be pulled from topic to topic.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     mwt03 = models.IntegerField(label="I mind wander even when I’m supposed to be doing something else.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     mwt04 = models.IntegerField(label="I have difficulty controlling my thoughts.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     mwt05 = models.IntegerField(label="I find it hard to switch my thoughts off.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     mwt06 = models.IntegerField(label="My thoughts are disorganized and `all over the place'.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     mwt07 = models.IntegerField(label="I find it difficult to think about one thing without another thought entering my mind.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     mwt08 = models.IntegerField(label="I find my thoughts are distracting and prevent me from focusing on what I am doing.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     mwt09 = models.IntegerField(label="I have difficulty slowing my thoughts down and focusing on one thing at a time.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     mwt10 = models.IntegerField(label="I find myself flitting back and forth between different thoughts.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
 
     ### --- MUSIC AT WORK TYPE --- ###
 
     # ----- General ----- #
     mt_g_01 = models.IntegerField(label="I listen to music while working.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     mt_g_02 = models.IntegerField(label="I think music can help me to achieve more in certain tasks.",
-                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     mt_g_03 = models.IntegerField(label="Listening to music at work improves my overall long-term productivity.",
-                                  choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                  choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     mt_g_04 = models.IntegerField(label="Listening to music at work improves my overall long-term emotional well-being.",
-                                  choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
+                                  choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
 
     # ----- Reason ----- #
     mt_r_01 = models.IntegerField(label="I listen to music because it helps me to get into the flow state.",
@@ -117,19 +122,19 @@ class Player(BasePlayer):
     mt_r_03 = models.IntegerField(label="I listen to music because it helps me to experience more intense flow states.",
                                 choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
 
-    mt_r_04 = models.IntegerField(label="I listen to music because it helps me to block off potential distractions from the outside.",
+    mt_r_04 = models.IntegerField(label="I listen to music at work because it helps me to block off potential distractions from the outside.",
                                 choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
-    mt_r_05 = models.IntegerField(label="I listen to music because it keeps unwanted inner thoughts away.",
+    mt_r_05 = models.IntegerField(label="I listen to music at work because it keeps unwanted inner thoughts away.",
                                 choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
-    mt_r_06 = models.IntegerField(label="I listen to music because it motivates me to get started with my work.",
+    mt_r_06 = models.IntegerField(label="I listen to music at work because it motivates me to get started with my work.",
                                 choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
-    mt_r_07 = models.IntegerField(label="I listen to music because it motivates me to keep going with my work.",
+    mt_r_07 = models.IntegerField(label="I listen to music at work because it motivates me to keep going with my work.",
                                 choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
-    mt_r_08 = models.IntegerField(label="I listen to music because it makes work more enjoyable.",
+    mt_r_08 = models.IntegerField(label="I listen to music at work because it makes work more enjoyable.",
                                 choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
     mt_r_09 = models.IntegerField(label="I listen to music at work to boost my creativity.",
                                   choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
-    mt_r_10 = models.IntegerField(label="I listen to music because it boosts my energy.",
+    mt_r_10 = models.IntegerField(label="I listen to music at work because it boosts my energy.",
                                   choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
     mt_r_11 = models.IntegerField(label="I listen to music at work to improve my mood.",
                                   choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']])
@@ -263,7 +268,36 @@ class Player(BasePlayer):
 
 class ThankYou(Page):
     form_model = 'player'
-    form_fields = ['email']
+    form_fields = ['name', 'IBAN', 'BIC']
+
+class TraitQuestionnaire(Page):
+    @staticmethod
+    def get_form_fields(player: Player):
+        import random
+        flow_fields = ['sdfs1', 'sdfs2', 'sdfs3', 'sdfs4', 'sdfs5', 'sdfs6', 'sdfs7', 'sdfs8', 'sdfs9']
+        random.shuffle(flow_fields)
+        all_fields = flow_fields
+
+        ext_fields = ['e1', 'e2', 'e3', 'e4', 'e5', 'e6']
+        random.shuffle(ext_fields)
+        all_fields += ext_fields
+
+        domain_fields = ['domain_exp_transcription', 'domain_exp_typing', 'domain_exp_research', 'domain_exp_reading']
+        random.shuffle(domain_fields)
+        all_fields += domain_fields
+
+        mwt_fields = ['mwt1', 'mwt2', 'mwt3', 'mwt4', 'mwt5', 'mwt6', 'mwt7', 'mwt8', 'mwt9', 'mwt10']
+        random.shuffle(mwt_fields)
+        all_fields = mwt_fields
+
+        mt_g_fields = ['mt_g_01', 'mt_g_02', 'mt_g_03', 'mt_g_04']
+        random.shuffle(mt_g_fields)
+        all_fields = mt_g_fields
 
 
-page_sequence = [ThankYou]
+
+        all_fields += ['tlx', 'control_text_interest', 'control_music_liking', 'control_music_turnoff']
+
+        return all_fields
+
+page_sequence = [TraitQuestionnaire, ThankYou]

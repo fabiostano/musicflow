@@ -9,6 +9,34 @@
 {{ endblock }}
 
 {{ block content }}
+
+{{ if treatment == 'music'}}
+{{ if playlist == 'lofi.mp3'}}
+    <audio id="background-audio" autoplay loop>
+        <source src="{% static 'music/lofi.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{{ endif }}
+{{ if playlist == 'jazz.mp3'}}
+    <audio id="background-audio" autoplay loop>
+        <source src="{% static 'music/jazz.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{{ endif }}
+{{ if playlist == 'classical.mp3'}}
+    <audio id="background-audio" autoplay loop>
+        <source src="{% static 'music/classical.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{{ endif }}
+{{ if playlist == 'house.mp3'}}
+    <audio id="background-audio" autoplay loop>
+        <source src="{% static 'music/house.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{{ endif }}
+{{ endif }}
+
 <div class="split-screen">
     <!-- PDF Viewer -->
     <div class="pdf-container">
@@ -21,11 +49,41 @@
     </div>
 </div>
 
+<input type="hidden" name="load_time" id="load_time" value=""/>
+{{ formfield_errors 'load_time' }}
+
 {{ endblock }}
 
 {{ block scripts }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("load_time").value = Date.now();
+        const audio = document.getElementById("background-audio");
+        if (audio) {
+            audio.volume = 0.5; // Set volume to 50%
+        }
+
+        const form = document.querySelector("form");
+        const textarea = document.querySelector("textarea");
+        const timerDuration = {{ trialTime }} * 60 * 1000; // milliseconds
+
+        // Automatically submit the form after the timer ends
+        setTimeout(() => {
+            // Create a hidden input to store textarea value
+            const notesInput = document.createElement("input");
+            notesInput.type = "hidden";
+            notesInput.name = "notes";
+            notesInput.value = textarea.value;
+
+            form.appendChild(notesInput);
+            form.submit();
+        }, timerDuration);
+    });
+</script>
+
 {{ endblock }}
 
 {{ block style }}
