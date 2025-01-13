@@ -106,117 +106,101 @@ class Player(BasePlayer):
 
     ### --- MUSIC AT WORK TYPE --- ###
 
-    def create_field(label, widget=None):
+    from otree.api import models, widgets
+
+    def make_likert_field(label, widget=widgets.RadioSelectHorizontal):
         return models.IntegerField(
             label=label,
             choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']],
-            widget=widgets.RadioSelectHorizontal,
+            widget=widget,
         )
 
-    # ----- General -----
-    general_fields = {
-        'mt_g_01': "I sometimes listen to music while working.",
-        'mt_g_02': "I think music can help me to achieve more in certain tasks.",
-        'mt_g_03': "Listening to music at work improves my overall long-term productivity.",
-        'mt_g_04': "Listening to music at work improves my overall long-term emotional well-being.",
-    }
+    # ----- General ----- #
+    mt_g_01 = make_likert_field("I sometimes listen to music while working.")
+    mt_g_02 = make_likert_field("I think music can help me to achieve more in certain tasks.")
+    mt_g_03 = make_likert_field("Listening to music at work improves my overall long-term productivity.")
+    mt_g_04 = make_likert_field("Listening to music at work improves my overall long-term emotional well-being.")
 
-    # ----- Reason ----- I listen to music at work ...
-    reason_fields = {
-        'mt_r_01': "... because it helps me to get into the flow state.",
-        'mt_r_02': "... because it helps me to stay in the flow state.",
-        'mt_r_03': "... because it helps me to experience more intense flow states.",
-        'mt_r_04': "... because it helps me to block off potential distractions from the outside.",
-        'mt_r_05': "... because it keeps unwanted inner thoughts away.",
-        'mt_r_06': "... because it motivates me to get started with my work.",
-        'mt_r_07': "... because it motivates me to keep going with my work.",
-        'mt_r_08': "... because it makes work more enjoyable.",
-        'mt_r_09': "... to boost my creativity.",
-        'mt_r_10': "... because it boosts my energy.",
-        'mt_r_11': "... to improve my mood.",
-        'mt_r_12': "... because it calms me down.",
-        'mt_r_13': "... because it inspires me.",
-        'mt_r_14': "... to make boring tasks less boring.",
-        'mt_r_15': "... because it creates a personal bubble in shared spaces.",
-        'mt_r_16': "... because it helps me to complete tasks faster.",
-        'mt_r_17': "... because it helps me maintain a high level of accuracy in my work.",
-        'mt_r_18': "... because it helps me manage my workload better.",
-        'mt_r_19': "... because it helps me to stay on track and avoid procrastination.",
-        'mt_r_20': "... because it helps me feel more connected to my work.",
-    }
+    # ----- Reason ----- #
+    mt_r_01 = make_likert_field("... because it helps me to get into the flow state.")
+    mt_r_02 = make_likert_field("... because it helps me to stay in the flow state.")
+    mt_r_03 = make_likert_field("... because it helps me to experience more intense flow states.")
+    mt_r_04 = make_likert_field("... because it helps me to block off potential distractions from the outside.")
+    mt_r_05 = make_likert_field("... because it keeps unwanted inner thoughts away.")
+    mt_r_06 = make_likert_field("... because it motivates me to get started with my work.")
+    mt_r_07 = make_likert_field("... because it motivates me to keep going with my work.")
+    mt_r_08 = make_likert_field("... because it makes work more enjoyable.")
+    mt_r_09 = make_likert_field("... to boost my creativity.")
+    mt_r_10 = make_likert_field("... because it boosts my energy.")
+    mt_r_11 = make_likert_field("... to improve my mood.")
+    mt_r_12 = make_likert_field("... because it calms me down.")
+    mt_r_13 = make_likert_field("... because it inspires me.")
+    mt_r_14 = make_likert_field("... to make boring tasks less boring.")
+    mt_r_15 = make_likert_field("... because it creates a personal bubble in shared spaces.")
+    mt_r_16 = make_likert_field("... because it helps me to complete tasks faster.")
+    mt_r_17 = make_likert_field("... because it helps me maintain a high level of accuracy in my work.")
+    mt_r_18 = make_likert_field("... because it helps me manage my workload better.")
+    mt_r_19 = make_likert_field("... because it helps me to stay on track and avoid procrastination.")
+    mt_r_20 = make_likert_field("... because it helps me feel more connected to my work.")
 
-    # ----- Source -----
-    source_fields = {
-        'mt_s_01': "I use curated playlists or algorithms to listen to music at work.",
-        'mt_s_02': "I create my own playlists which I listen to at work.",
-        'mt_s_03': "I listen to the radio or similar live curated formats at work.",
-    }
+    # ----- Source ----- #
+    mt_s_01 = make_likert_field("I use curated playlists or algorithms to listen to music at work.")
+    mt_s_02 = make_likert_field("I create my own playlists which I listen to at work.")
+    mt_s_03 = make_likert_field("I listen to the radio or similar live curated formats at work.")
 
-    # ----- Work Tasks ----- I listen to music while working on...
-    work_tasks_fields = {
-        'mt_w_01': "... tasks that are rather easy for me.",
-        'mt_w_02': "... tasks that are rather hard for me.",
-        'mt_w_03': "... routine tasks.",
-        'mt_w_04': "... tasks that are new to me.",
-        'mt_w_05': "... repetitive tasks that require minimal focus.",
-        'mt_w_06': "... tasks that require deep focus or high accuracy.",
-        'mt_w_07': "... creative tasks (e.g. drafting new ideas).",
-        'mt_w_08': "... graphical tasks (e.g. coming up with visualizations).",
-        'mt_w_09': "... tasks that require lots of analytical thinking (e.g. programming).",
-        'mt_w_10': "... tasks that require demanding writing and reading (e.g. academic work).",
-        'mt_w_11': "... tasks that require easy writing and reading (e.g. handling e-mails).",
-        'mt_wd': "I listen to different types of music for different tasks.",
-    }
+    # ----- Work Tasks ----- #
+    mt_w_01 = make_likert_field("... tasks that are rather easy for me.")
+    mt_w_02 = make_likert_field("... tasks that are rather hard for me.")
+    mt_w_03 = make_likert_field("... routine tasks.")
+    mt_w_04 = make_likert_field("... tasks that are new to me.")
+    mt_w_05 = make_likert_field("... repetitive tasks that require minimal focus.")
+    mt_w_06 = make_likert_field("... tasks that require deep focus or high accuracy.")
+    mt_w_07 = make_likert_field("... creative tasks (e.g. drafting new ideas).")
+    mt_w_08 = make_likert_field("... graphical tasks (e.g. coming up with visualizations).")
+    mt_w_09 = make_likert_field("... tasks that require lots of analytical thinking (e.g. programming).")
+    mt_w_10 = make_likert_field("... tasks that require demanding writing and reading (e.g. academic work).")
+    mt_w_11 = make_likert_field("... tasks that require easy writing and reading (e.g. handling e-mails).")
+    mt_wd = make_likert_field("I listen to different types of music for different tasks.")
 
-    # ----- Temporal -----
-    temporal_fields = {
-        'mt_t_01': "I need a constant level of background music while working.",
-        'mt_t_02': "I only use background music for certain selected periods and then turn it off again.",
-        'mt_t_03': "I find myself listening to music at work more often during the morning.",
-        'mt_t_04': "I find myself listening to music at work more often during the afternoon.",
-        'mt_t_05': "I find myself listening to music at work more often during the evening.",
-        'mt_t_06': "I find myself listening to music at work more often during the night.",
-        'mt_td': "I listen to different types of music for different times of day.",
-    }
+    # ----- Temporal ----- #
+    mt_t_01 = make_likert_field("I need a constant level of background music while working.")
+    mt_t_02 = make_likert_field(
+        "I only use background music for certain selected periods and then turn it off again.")
+    mt_t_03 = make_likert_field("I find myself listening to music at work more often during the morning.")
+    mt_t_04 = make_likert_field("I find myself listening to music at work more often during the afternoon.")
+    mt_t_05 = make_likert_field("I find myself listening to music at work more often during the evening.")
+    mt_t_06 = make_likert_field("I find myself listening to music at work more often during the night.")
+    mt_td = make_likert_field("I listen to different types of music for different times of day.")
 
-    # ----- Environment -----
-    environment_fields = {
-        'mt_e_01': "I like to use background music when working at home.",
-        'mt_e_02': "I like to use background music when working in the office.",
-        'mt_e_03': "I like to use background music when working in co-working spaces or public libraries.",
-        'mt_e_04': "I like to use background music when working in means of public transportation (e.g. train).",
-        'mt_e_05': "I like to use background music when working in public places (e.g. cafes, parks).",
-        'mt_e_06': "I find it easier to focus with music when I am working alone.",
-        'mt_e_07': "I listen to music while working in shared spaces to create a sense of privacy.",
-        'mt_e_08': "I listen to music while working in noisy environments.",
-        'mt_e_09': "I listen to music while working in quiet environments.",
-        'mt_ed': "I listen to different types of music for different locations.",
-    }
+    # ----- Environment ----- #
+    mt_e_01 = make_likert_field("I like to use background music when working at home.")
+    mt_e_02 = make_likert_field("I like to use background music when working in the office.")
+    mt_e_03 = make_likert_field(
+        "I like to use background music when working in co-working spaces or public libraries.")
+    mt_e_04 = make_likert_field(
+        "I like to use background music when working in means of public transportation (e.g. train).")
+    mt_e_05 = make_likert_field("I like to use background music when working in public places (e.g. cafes, parks).")
+    mt_e_06 = make_likert_field("I find it easier to focus with music when I am working alone.")
+    mt_e_07 = make_likert_field("I listen to music while working in shared spaces to create a sense of privacy.")
+    mt_e_08 = make_likert_field("I listen to music while working in noisy environments.")
+    mt_e_09 = make_likert_field("I listen to music while working in quiet environments.")
+    mt_ed = make_likert_field("I listen to different types of music for different locations.")
 
-    # ----- Characteristics of Music ----- At work, I like to listen to ...
-    characteristics_fields = {
-        'mt_c_01': "... classical music.",
-        'mt_c_02': "... lofi music.",
-        'mt_c_03': "... hip-hop music.",
-        'mt_c_04': "... rock music.",
-        'mt_c_05': "... pop music.",
-        'mt_c_06': "... electronic music.",
-        'mt_c_07': "... jazz music.",
-        'mt_c_08': "... ambient music.",
-        'mt_c_09': "... music with lyrics.",
-        'mt_c_10': "... instrumental music without lyrics.",
-        'mt_c_11': "... fast music.",
-        'mt_c_12': "... slow music.",
-        'mt_cd': "I to the same type of music at work as in my free time.",
-    }
+    # ----- Characteristics of Music ----- #
+    mt_c_01 = make_likert_field("... classical music.")
+    mt_c_02 = make_likert_field("... lofi music.")
+    mt_c_03 = make_likert_field("... hip-hop music.")
+    mt_c_04 = make_likert_field("... rock music.")
+    mt_c_05 = make_likert_field("... pop music.")
+    mt_c_06 = make_likert_field("... electronic music.")
+    mt_c_07 = make_likert_field("... jazz music.")
+    mt_c_08 = make_likert_field("... ambient music.")
+    mt_c_09 = make_likert_field("... music with lyrics.")
+    mt_c_10 = make_likert_field("... instrumental music without lyrics.")
+    mt_c_11 = make_likert_field("... fast music.")
+    mt_c_12 = make_likert_field("... slow music.")
+    mt_cd = make_likert_field("I like to listen to the same type of music at work as in my free time.")
 
-    # Combine all fields
-    all_fields = {**general_fields, **reason_fields, **source_fields, **work_tasks_fields, **temporal_fields,
-                  **environment_fields, **characteristics_fields}
-
-    # Dynamically create fields
-    for field_name, label in all_fields.items():
-        locals()[field_name] = create_field(label)
 
 class ThankYou(Page):
     form_model = 'player'
