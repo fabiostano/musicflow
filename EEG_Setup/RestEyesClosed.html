@@ -17,12 +17,13 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <div id="instructions" class="explanation-container">
-        <p>Over the next few minutes please try to relax. You can let your mind wander where it takes you.</p>
+<div class="jumbotron" style="padding-top: 5%">
+    <div id="instructions">
+        <p>Over the next minute please try to relax. You can let your mind wander where it takes you.</p>
 
         <p>Please <a style="color: #FFA500"><b>close your eyes</b></a> the whole time. Also, please avoid unnecessary movements.</p>
 
-        <p>A sound will notify you when the phase is over.</p>
+        <p>A sound will notify you that the phase is over.</p>
 
         <p> </p>
 
@@ -30,16 +31,14 @@
 
         <p><button class="btn btn-danger" id="taskStartButton" type="button">Start</button></p>
     </div>
-
     <div id="stimulus" style="display: none">
         <p>Please <a style="color: #FFA500"><b>close your eyes now</b></a>.</p>
         <p><img alt="" src="{{ static 'two-eyelashes.png' }}" style="display: block; margin-left: auto; margin-right: auto; width: 50%;" /></p>
     </div>
-
-    <div id="finish" class="explanation-container" style="display: none">
+    <div id="finish" style="display: none">
         <p>The resting phase <span style="color:#FFA500;"><strong>is now over.</strong></span></p>
     </div>
-
+</div>
 
 <!-- Logging field -->
 {{ formfield "rest_actions_ec" }}
@@ -97,7 +96,7 @@
     }
 
     function scheduleInterruption(nextBtn, taskField, taskOverField) {
-        const intTime = 60*1000;
+        const intTime = {{ duration }} *1000;
 
         setTimeout(function(){
             // Notify via bell

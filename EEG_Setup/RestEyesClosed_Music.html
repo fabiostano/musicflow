@@ -17,13 +17,40 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+{{ if playlist == 'lofi.mp3'}}
+    <audio id="background-audio" autoplay loop>
+        <source src="{% static 'music/lofi.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{{ endif }}
+{{ if playlist == 'jazz.mp3'}}
+    <audio id="background-audio" autoplay loop>
+        <source src="{% static 'music/jazz.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{{ endif }}
+{{ if playlist == 'classical.mp3'}}
+    <audio id="background-audio" autoplay loop>
+        <source src="{% static 'music/classical.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{{ endif }}
+{{ if playlist == 'house.mp3'}}
+    <audio id="background-audio" autoplay loop>
+        <source src="{% static 'music/house.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{{ endif }}
+
 <div class="jumbotron" style="padding-top: 5%">
     <div id="instructions">
         <p>Over the next few minutes please try to relax. You can let your mind wander where it takes you.</p>
 
+        <p>Music should be playing currently. If it doesn't please open your door and inform a lab assistant.</p>
+
         <p>Please <a style="color: #FFA500"><b>close your eyes</b></a> the whole time. Also, please avoid unnecessary movements.</p>
 
-        <p>A sound will notify you that the phase is over.</p>
+        <p>When the music stops, the phase is over, and you can open your eyes again.</p>
 
         <p> </p>
 
@@ -40,51 +67,17 @@
     </div>
 </div>
 
-<!-- Logging field -->
-{{ formfield "rest_actions_ec" }}
+<input type="hidden" name="start_time_ec_m" id="start_time_ec_m" value=""/>
+{{ formfield_errors 'start_time_ec_m' }}
 
 <div class="d-flex justify-content-center" style="clear:both">
     <button class="otree-btn-next btn btn-primary next-button otree-next-button" id="nextbtn">Next</button>
 </div>
 
 <script>
-    // Logging elements
-    var loggingField;
-
-    function getTSString(){
-        let clickTs = new Date();
-        return clickTs.toString() + ';' + clickTs.getTime()
-      }
-
-      // See: https://stackoverflow.com/questions/16310423/addeventlistener-calls-the-function-without-me-even-asking-it-to
-      function logTime(tsFieldObject, msg) {
-        return function () {
-          // Add time to field
-          tsFieldObject.value = tsFieldObject.value + ';' + msg + ';' + getTSString();
-        }
-      }
-
-      function logTimeDirect(tsFieldObject, msg) {
-        // Add time to field
-        tsFieldObject.value = tsFieldObject.value + ';' + msg + ';' + getTSString();
-      }
-
-    function ringBell(){
-        const audio = new Audio('http://expeeeriments.io/writingHome/bell.mp3');
-        audio.play();
-    }
-
-    function prepareAudio(){
-        const audio = new Audio('https://expeeeriments.io/writingHome/silence.mp3');
-        audio.play();
-    }
-
     function startTask(instField, taskField, taskOverField, nextBtn) {
         return function () {
-            logTimeDirect(loggingField, 'taskStart');
-
-            // Play silent audio
-            prepareAudio();
+            document.getElementById("start_time_ec_m").value = Date.now();
 
             // Hide instruction field
             instField.style.display = "none";
@@ -96,22 +89,15 @@
     }
 
     function scheduleInterruption(nextBtn, taskField, taskOverField) {
-        const intTime = 90*1000;
+        const intTime = {{ duration }} * 1000;
 
         setTimeout(function(){
-            // Notify via bell
-            ringBell();
+            // Stop Music
+            document.getElementById('background-audio').pause();
 
             // Hide Task and show move-on message
             taskField.style.display = "none";
             taskOverField.style.display = "block";
-
-            logTimeDirect(loggingField, 'timeOut');
-
-            // Repeat bell
-            setInterval(function(){
-                ringBell();
-            }, 3000);
 
             nextBtn.disabled = false;
             nextBtn.style.display = "block";
@@ -122,12 +108,6 @@
         let nextBtn = document.getElementById("nextbtn");
         nextBtn.disabled = true;
         nextBtn.style.display = "none";
-
-        // Logging Parts
-        loggingField = document.getElementById("id_rest_actions_ec");
-        loggingField.style.display = "none";
-        logTimeDirect(loggingField, 'onLoad');
-        nextBtn.addEventListener("click", logTime(loggingField, 'onNextClick')); // Log time on btn click
 
         let instFieldDiv = document.getElementById("instructions");
         let taskFieldDiv = document.getElementById("stimulus");
