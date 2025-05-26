@@ -202,7 +202,7 @@ class Player(BasePlayer):
     mt_cd = make_likert_field("I like to listen to the same type of music at work as in my free time.")
 
     # open questions
-    o_01 = models.LongStringField(label="Which of the tasks was more boring to you? Emails or Form Matching?", blank=True)
+    o_01 = models.LongStringField(label="Which of the tasks was more boring to you? Emails or Data Checking?", blank=True)
     o_02 = models.LongStringField(label="Did the music help with the tasks? If yes how?", blank=True)
     o_03 = models.LongStringField(label="Did the music help more for one task than the other?", blank=True)
 
