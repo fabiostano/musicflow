@@ -183,8 +183,6 @@ class Instructions2(Page):
         player.treatment = player.participant.treat_order[1]
 
 
-
-
 class Task(Page):
     form_model = 'player'
     form_fields = ['notes', 'load_time']
@@ -205,7 +203,7 @@ class Task(Page):
         return {"pdf_url": pdf_url,
                 "treatment": player.treatment,
                 "playlist": player.participant.playlist,
-                "trialTime": 0.1}
+                "trialTime": 10}
 
 class TaskQuestionnaire(Page):
     form_model = 'player'
