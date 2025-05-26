@@ -103,6 +103,33 @@
         </table>
     </div>
 
+    <div class="survey-container">
+        <div class="row">
+            <h3><b>Please state how much the following statements describe your opinion on the task.</b></h3>
+        </div>
+        <table class="table mytable" frame="void" style="width:100%; ">
+            <tr>
+                <th></th>
+                <th style="text-align:center"> Strongly Disagree </th>
+                <th>  </th>
+                <th style="text-align:center"> Neither Agree or Disagree</th>
+                <th>  </th>
+                <th style="text-align:center"> Strongly Agree </th>
+            </tr>
+        {% for field in form %}
+            {% if field.id.startswith("id_bd") %}
+                <tr>
+                    <td align="left" style="width:33%">{{ field.label }}</td>
+
+                    {% for choice in field %}
+                        <td align="center" >{{ choice }}</td>
+                    {% endfor %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </table>
+    </div>
+
 
     <div class="survey-container">
         <table class="table mytable" frame="void" style="width:100%; ">

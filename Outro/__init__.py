@@ -201,6 +201,17 @@ class Player(BasePlayer):
     mt_c_12 = make_likert_field("... slow music.")
     mt_cd = make_likert_field("I like to listen to the same type of music at work as in my free time.")
 
+    # open questions
+    o_01 = models.LongStringField(label="Which of the tasks was more boring to you? Emails or Form Matching?", blank=True)
+    o_02 = models.LongStringField(label="Did the music help with the tasks? If yes how?", blank=True)
+    o_03 = models.LongStringField(label="Did the music help more for one task than the other?", blank=True)
+
+    mt_o_01 = models.LongStringField(label="Why do you listen to music at work, if you do? Why not, if you don't?", blank=True)
+    mt_o_02 = models.LongStringField(label="For which tasks do you listen to music at work? For which specifically not?", blank=True)
+    mt_o_03 = models.LongStringField(label="In which places do you listen to music at work? In which specifically not?", blank=True)
+    mt_o_04 = models.LongStringField(label="To which kind of music do you listen to at work? To which specifically not?", blank=True)
+    mt_o_05 = models.LongStringField(label="When do you listen to music at work? When specifically not?", blank=True)
+
 
 class ThankYou(Page):
     form_model = 'player'
@@ -274,6 +285,9 @@ class MusicType(Page):
 
         return all_fields
 
+class MusicType_pre(Page):
+    form_model = "player"
+    form_fields = ['o_01', 'o_02', 'o_03', 'mt_o_01', 'mt_o_02', 'mt_o_03', 'mt_o_04', 'mt_o_05']
 
 
-page_sequence = [TraitQuestionnaire, MusicType, ThankYou, Goodbye]
+page_sequence = [TraitQuestionnaire, MusicType_pre, Goodbye]

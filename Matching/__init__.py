@@ -130,9 +130,9 @@ class Player(BasePlayer):
 
     # ----- Misc Controls ----- #
     control_music_liking = models.IntegerField(label="I liked the background music.",
-                                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
+                                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6']], widget=widgets.RadioSelectHorizontal)
     control_music_turnoff = models.IntegerField(label="If it would have been possible, I would have turned off the music.",
-                                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
+                                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6']], widget=widgets.RadioSelectHorizontal)
 
     # ----- Boredom ----- #
     bd1 = models.IntegerField(label="Time was passing by slower than ususal.",
@@ -161,18 +161,17 @@ class Instructions(Page):
     def is_displayed(player):
         return player.round_number == 1
 
-    def before_next_page(player, timeout_happened):
-        if player.round_number == 1:
-            player.treatment = player.participant.treat_order[0]
-        if player.round_number == 2:
-            player.treatment = player.participant.treat_order[1]
-
 
 class Task(Page):
     form_model = 'player'
     form_fields = ['load_time', 'responses']
 
     def vars_for_template(player):
+        if player.round_number == 1:
+            player.treatment = player.participant.treat_order[0]
+        if player.round_number == 2:
+            player.treatment = player.participant.treat_order[1]
+
         return {
             "first_names": load_csv_list("first_names.csv"),
             "last_names": load_csv_list("last_names.csv"),
@@ -182,7 +181,7 @@ class Task(Page):
             "departments": load_csv_list("departments.csv"),
             "supervisors": load_csv_list("supervisor_names.csv"),
             "addresses": load_csv_list("addresses.csv"),
-            "trialTime": 10 * 60,
+            "trialTime": 10,
         }
 
 
