@@ -5,7 +5,10 @@ SESSION_CONFIGS = [dict(name='full_research_first', num_demo_participants=2, app
                    dict(name='Intro', num_demo_participants=None, app_sequence=['EEG_Setup']),
                    dict(name='outro', num_demo_participants=None, app_sequence=['Outro']),
                    dict(name='research', num_demo_participants=None, app_sequence=['Research']),
-                   dict(name='transcription', num_demo_participants=None, app_sequence=['Transcription'])]
+                   dict(name='transcription', num_demo_participants=None, app_sequence=['Transcription']),
+                   dict(name='nback', num_demo_participants=None, app_sequence=['Intro', 'N_back']),
+                   dict(name='matching', num_demo_participants=None, app_sequence=['Intro', 'Matching']),
+                   dict(name='pretest_pretest', num_demo_participants=None, app_sequence=['Intro', 'N_back', 'Matching'])]
 LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'EUR'
 USE_POINTS = False

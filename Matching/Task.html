@@ -1,0 +1,228 @@
+{% extends 'global/Page.html' %}
+
+
+
+{% block title %}
+<div class="d-flex justify-content-center" style="margin-top: -50px">
+    <h2 style="margin-bottom:20px">DATA CHECKING TASK </h2>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<style>
+    #workingarea {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: 60vh;          /* adjust as you prefer */
+        gap: 2rem;
+        padding: 2rem;
+    }
+
+    .form-box {
+        background: white;
+        border: 1px solid #007bff;
+        border-radius: 4px;
+        padding: 1rem 1.5rem;
+        width: 300px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .form-field {
+        margin-bottom: .75rem;
+    }
+
+    /* 1) Blue labels */
+    .form-field label {
+        color: cornflowerblue;
+        font-weight: bold;
+    }
+
+    /* 2) Readonly inputs styled like normal text */
+    .form-field input[readonly] {
+        background-color: white !important;
+        color: black !important;
+        opacity: 1 !important;
+        border: 1px solid #ced4da;
+        box-shadow: none;
+        pointer-events: none;    /* prevents cursor change */
+    }
+</style>
+
+<div id="workingarea">
+    <div id="form-left"  class="form-box"></div>
+    <div id="form-right" class="form-box"></div>
+    <div id="controls" style="margin-left:10px">
+        <div class="row" style="margin-bottom:10px">
+            <button id="matchBtn"   class="btn btn-success btn-lg" type="button">Identical</button>
+        </div>
+        <div class="row">
+            <button id="noMatchBtn" class="btn btn-danger btn-lg" type="button">Different</button>
+        </div>
+    </div>
+</div>
+
+<!-- Next button, hidden until finish -->
+<div id="nextbuttondiv" style="display:none; text-align:center;">
+    <button id="nextbtn" class="btn btn-primary btn-lg">Next</button>
+</div>
+
+<!-- hidden fields -->
+<input type="hidden" name="load_time"      id="load_time"      value=""/>
+<input type="hidden" name="responses"      id="responses"      value=""/>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    function maskFormFields() {
+        // set every input in both boxes to "..."
+        document
+            .querySelectorAll('#form-left input, #form-right input')
+            .forEach(input => input.value = '…');
+    }
+
+    const matchBtn  = document.getElementById("matchBtn");
+    const noMatchBtn = document.getElementById("noMatchBtn");
+
+
+    // ——— 1) Timer logic ———
+    let currTime = 0;
+    const maxTime = {{ trialTime }};
+    const timerID = setInterval(() => {
+        currTime++;
+        if (currTime >= maxTime) {
+            clearInterval(timerID);
+            finishTask();
+        }
+    }, 1000);
+
+    // ——— 2) Your field pools ———
+    const firstNames   = [{% for x in first_names   %}'{{ x }}',{% endfor %}];
+    const lastNames    = [{% for x in last_names    %}'{{ x }}',{% endfor %}];
+    const ids          = [{% for x in ids           %}'{{ x }}',{% endfor %}];
+    const ages         = [{% for x in ages          %}'{{ x }}',{% endfor %}];
+    const jobTitles    = [{% for x in job_titles    %}'{{ x }}',{% endfor %}];
+    const departments  = [{% for x in departments  %}'{{ x }}',{% endfor %}];
+    const supervisors  = [{% for x in supervisors  %}'{{ x }}',{% endfor %}];
+    const addresses    = [{% for x in addresses    %}'{{ x }}',{% endfor %}];
+
+    const pools = {
+        first_name: firstNames,
+        last_name:  lastNames,
+        id:         ids,
+        age:        ages,
+        job_title:  jobTitles,
+        department: departments,
+        supervisor: supervisors,
+        address:    addresses
+    };
+
+    // ——— 3) State & helpers ———
+    let log = [];
+    let trialStart;
+    let leftData, rightData;
+
+    function sample(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function sampleForm() {
+        return {
+            first_name: sample(firstNames),
+            last_name:  sample(lastNames),
+            id:         sample(ids),
+            //age:        sample(ages),
+            //job_title:  sample(jobTitles),
+            //department: sample(departments),
+            //supervisor: sample(supervisors),
+            //address:    sample(addresses)
+        };
+    }
+
+    function generatePair() {
+        leftData = sampleForm();
+        if (Math.random() < 0.95) {
+            rightData = { ...leftData };
+        } else {
+            rightData = { ...leftData };
+            const field = ["first_name","last_name","id"][Math.floor(Math.random()*3)];
+            let newVal;
+            do { newVal = sample(pools[field]); }
+            while (newVal === leftData[field]);
+            rightData[field] = newVal;
+        }
+        trialStart = Date.now();
+        renderForms();
+    }
+
+    function renderForms() {
+        document.getElementById("form-left").innerHTML  = formatFormHTML(leftData);
+        document.getElementById("form-right").innerHTML = formatFormHTML(rightData);
+    }
+
+    // --- 6) Render only the three inputs ---
+  function renderForms(){
+    document.getElementById("form-left" ).innerHTML = formatFormHTML(leftData);
+    document.getElementById("form-right").innerHTML = formatFormHTML(rightData);
+  }
+  function formatFormHTML(obj){
+    return ["first_name","last_name","id"]
+      .map(key => {
+        const label = key.replace("_"," ").replace(/\b\w/g,c=>c.toUpperCase());
+        return `
+          <div class="form-field">
+            <label>${label}</label>
+            <input type="text" value="${obj[key]}" readonly class="form-control"/>
+          </div>`;
+      }).join("");
+  }
+
+    // ——— 4) Record & loop ———
+    function recordResponse(isIdentical) {
+        // 1) Log the trial as before…
+        const decisionTime = Date.now();
+        const actuallyIdentical = Object.keys(leftData)
+            .every(k => leftData[k] === rightData[k]);
+        const correct = (actuallyIdentical === isIdentical) ? 1 : 0;
+        log.push([ trialStart, decisionTime, correct ]);
+
+        // 2) Mask out the fields & disable buttons
+        maskFormFields();
+        matchBtn.disabled = true;
+        noMatchBtn.disabled = true;
+
+        // 3) After 1 s, regenerate forms and re‐enable
+        setTimeout(() => {
+            generatePair();             // draws & renders next
+            matchBtn.disabled = false;
+            noMatchBtn.disabled = false;
+        }, 1000);
+    }
+
+    // ——— 5) Finish Task ———
+    function finishTask() {
+        // hide working area, stop timer if needed
+        document.getElementById("workingarea").style.display   = "none";
+        document.getElementById("nextbuttondiv").style.display = "block";
+        document.getElementById("responses").value        = JSON.stringify(log);
+    }
+
+    // ——— 6) Init & wiring ———
+    document.addEventListener("DOMContentLoaded", () => {
+        // record load time
+        document.getElementById("load_time").value = Date.now();
+        // wire buttons
+        document.getElementById("matchBtn")
+            .addEventListener("click", () => recordResponse(true));
+        document.getElementById("noMatchBtn")
+            .addEventListener("click", () => recordResponse(false));
+        document.getElementById("nextbtn")
+            .addEventListener("click", () => document.forms[0].submit());
+        // start
+        generatePair();
+    });
+</script>
+{% endblock %}
