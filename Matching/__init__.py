@@ -1,42 +1,43 @@
 
 from otree.api import *
 import random
-import pandas as pd
+from os import walk
+from os.path import join
+from pathlib import Path
+import csv
+
 c = cu
 
 doc = ''
 class C(BaseConstants):
-    NAME_IN_URL = 'Research'
+    NAME_IN_URL = 'matching'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 2
-    PAPERS = [['Highlighting Strategies for Better Reading',
-               'Ever wondered if highlighting fewer words could make you a better reader? This study explores how '
-               'limiting highlights can boost understanding and help you remember what matters most.'],
-              ['Letting Machines Handle the Small Stuff',
-               'What if a machine could stimulate your muscles and move them for background tasks, while you do '
-               'something else simultaneously? This paper explores how this concept can lighten your mental load.'],
-              ['The Hidden Risks of Mental Health Apps',
-               'Mental health apps promise help, but could they accidentally cause harm? By analyzing thousands of '
-               'user reviews, this study uncovers potential risks and offers ideas for safer, smarter apps.'],
-              ['Follow Your Daily Goals with Self-Voice Alarms',
-               'Could hearing your own voice remind you to stick to your goals? This study tests how personalized'
-               'voice alarms can improve focus and help you get more done every day.'],
-              ['Voice-Based Online Dating Apps',
-               'What if online dating skipped profile pictures and let your voice do the talking? This study explores '
-               'a voice-first dating app that’s changing how people connect and communicate.'],
-              ['TikTok and Mental Health: Laughing Through Hard Times',
-               'How do young people use TikTok to share their struggles with mental health? This research dives into '
-               'how humor and creativity build supportive communities on the platform.'],
-              ['Gen Z and Online Information Trust',
-               'How does Gen Z decide what’s true online? This study reveals how social connections shape their '
-               'understanding of information in a world full of noise.'],
-              ['Gaming Without Sight: How the Blind Play Mainstream Games',
-               'How do blind players enjoy games designed for sighted audiences? This research explores their '
-               'strategies and reveals how design can unintentionally help or hinder accessibility.']
-              ]
 
 class Subsession(BaseSubsession):
     pass
+
+def load_csv_list(fname):
+    path = Path(__file__).parents[1] / "_static" / fname
+    with path.open(encoding="utf-8") as f:
+        reader = csv.reader(f)
+        return [row[0] for row in reader]
+
+
+def creating_session(subsession: Subsession):
+    # Get all the snippets
+    root = '_static/snippets/'
+    trans_imgs = [join(path, name) for path, subdirs, files in walk(root) for name in files]
+    # Remove the '_static/' part again
+    trans_imgs = [s.replace('_static/', '') for s in trans_imgs]
+    # Remove other files
+    trans_imgs = [f for f in trans_imgs if (f.endswith('.jpg') | f.endswith('.png'))]
+
+    # Shuffle the snippets
+    random.shuffle(trans_imgs)
+
+    for p in subsession.get_players():
+        p.participant.trans_imgs_solo = trans_imgs
 
 class Group(BaseGroup):
     pass
@@ -44,23 +45,21 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     time_start = models.StringField(blank=True)
     treatment = models.StringField(blank=True)
-    notes = models.LongStringField(blank=True)
     load_time = models.IntegerField(blank=True)
 
-    selected_paper = models.StringField(
-        choices=['Highlighting Strategies for Better Reading',
-                 'Letting Machines Handle the Small Stuff',
-                 'The Hidden Risks of Mental Health Apps',
-                 'Follow Your Daily Goals with Self-Voice Alarms',
-                 'Voice-Based Online Dating Apps',
-                 'TikTok and Mental Health: Laughing Through Hard Times',
-                 'Gen Z and Online Information Trust',
-                 'Gaming Without Sight: How the Blind Play Mainstream Games'],
-        label="Select the paper you'd like to work on.",
-        blank=False,
-    )
+    # ---- Task Actions ---- #
+    responses = models.LongStringField(blank=True)
+    snippet_list = models.LongStringField(blank=True)
 
     ### --- STATE Q --- ###
+
+    # ----- Mental Readiness ----- #
+    mr1 = models.IntegerField(label="How are you feeling right now?",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
+    mr2 = models.IntegerField(label="How sleepy are you feeling right now?.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
+    mr3 = models.IntegerField(label="How motivated are you feeling right now?",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
 
     # ----- Pleasure & Arousal ----- #
     pleasure = models.IntegerField(label="test", choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']],
@@ -101,15 +100,15 @@ class Player(BasePlayer):
                                 choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
 
     # ----- Skill-Demand-Balance ----- #
-    sdb1 = models.IntegerField(label="Compared to all other activities which I partake in, this one was…",
+    sdb1 = models.IntegerField(label="Compared to all other activities which I partake in, this one is…",
                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     sdb2 = models.IntegerField(label="I think that my competence in this area is …",
                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
-    sdb3 = models.IntegerField(label="For me personally, the task demands were …",
+    sdb3 = models.IntegerField(label="For me personally, the current demands are …",
                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
 
     # ----- Mental Demand ----- #
-    tlx = models.IntegerField(label="How much mental and perceptual activity was required (e.g. thinking, deciding, calculating, remembering, looking, searching, etc.)?",
+    tlx = models.IntegerField(label="How much mental and perceptual activity was required (e.g. thinking, deciding, calculating, remembering, looking, searching, etc.?",
                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'],
                                        [6, '6'], [7, '7'], [8, '8'], [9, '9'], [10, '10'],
                                        [11, '11'], [12, '12'], [13, '13'], [14, '14'], [15, '15'],
@@ -130,88 +129,71 @@ class Player(BasePlayer):
                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
 
     # ----- Misc Controls ----- #
-    control_text_interest = models.IntegerField(label="I thought the paper was an interesting  read.",
-                                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
-    control_music_liking = models.IntegerField(label="I enjoyed the background music.",
+    control_music_liking = models.IntegerField(label="I liked the background music.",
                                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6']], widget=widgets.RadioSelectHorizontal)
     control_music_turnoff = models.IntegerField(label="If it would have been possible, I would have turned off the music.",
                                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6']], widget=widgets.RadioSelectHorizontal)
 
+    # ----- Boredom ----- #
+    bd1 = models.IntegerField(label="Time was passing by slower than ususal.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']],
+                              widget=widgets.RadioSelectHorizontal)
+    bd2 = models.IntegerField(label="I was stuck in a situation that I felt was irrelevant.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']],
+                              widget=widgets.RadioSelectHorizontal)
+    bd3 = models.IntegerField(label="Everything seemed repetitive and routine to me.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']],
+                              widget=widgets.RadioSelectHorizontal)
+    bd4 = models.IntegerField(label="I felt bored.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']],
+                              widget=widgets.RadioSelectHorizontal)
+    bd5 = models.IntegerField(label="I seemed to be forced to do things that have no value to me.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']],
+                              widget=widgets.RadioSelectHorizontal)
+    bd6 = models.IntegerField(label="I wished I were doing something more exciting.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']],
+                              widget=widgets.RadioSelectHorizontal)
 
 
-class Instructions1(Page):
+class Instructions(Page):
     form_model = 'player'
-    form_fields = ["selected_paper"]
 
     def is_displayed(player):
         return player.round_number == 1
 
-    def vars_for_template(player):
-        return {
-            "papers": C.PAPERS,
-            "round_number": player.round_number
-        }
-
-    def before_next_page(player, timeout_happened):
-        player.participant.paper_r1 = player.selected_paper
-
-        treatments = ['music', 'control']
-        random.shuffle(treatments)
-
-        player.participant.treat_order = treatments
-        player.treatment = player.participant.treat_order[0]
-
-
-class Instructions2(Page):
-    form_model = 'player'
-    form_fields = ["selected_paper"]
-
-    def is_displayed(player):
-        return player.round_number == 2
-
-
-    def vars_for_template(player):
-        return {
-            "papers": C.PAPERS,
-            "round_number": player.round_number,
-            "paper_r1": player.participant.paper_r1
-        }
-
-    def before_next_page(player, timeout_happened):
-        player.participant.paper_r1 = player.selected_paper
-
-        player.treatment = player.participant.treat_order[1]
-
 
 class Task(Page):
     form_model = 'player'
-    form_fields = ['notes', 'load_time']
+    form_fields = ['load_time', 'responses']
 
     def vars_for_template(player):
-        paper_url_map = {
-            "Highlighting Strategies for Better Reading": "highlighting_strategies.pdf",
-            "Letting Machines Handle the Small Stuff": "ems_background.pdf",
-            "The Hidden Risks of Mental Health Apps": "mental_health_apps.pdf",
-            "Follow Your Daily Goals with Self-Voice Alarms": "self_voice.pdf",
-            "Voice-Based Online Dating Apps": "voice_dating.pdf",
-            "TikTok and Mental Health: Laughing Through Hard Times": "tik_tok_mental_health.pdf",
-            "Gen Z and Online Information Trust": "genz_truth.pdf",
-            "Gaming Without Sight: How the Blind Play Mainstream Games": "blind_gaming.pdf"
+        if player.round_number == 1:
+            player.treatment = player.participant.treat_order[0]
+        if player.round_number == 2:
+            player.treatment = player.participant.treat_order[1]
+
+        return {
+            "first_names": load_csv_list("first_names.csv"),
+            "last_names": load_csv_list("last_names.csv"),
+            "ids": load_csv_list("ids.csv"),
+            "ages": load_csv_list("ages.csv"),
+            "job_titles": load_csv_list("job_titles.csv"),
+            "departments": load_csv_list("departments.csv"),
+            "supervisors": load_csv_list("supervisor_names.csv"),
+            "addresses": load_csv_list("addresses.csv"),
+            "trialTime": 10,
         }
-        selected_paper = player.selected_paper
-        pdf_url = paper_url_map.get(selected_paper, "blind_gaming.pdf")
-        return {"pdf_url": pdf_url,
-                "treatment": player.treatment,
-                "playlist": player.participant.playlist,
-                "trialTime": 10}
+
 
 class TaskQuestionnaire(Page):
     form_model = 'player'
+    all_fields = []
 
     @staticmethod
     def get_form_fields(player: Player):
         import random
-        flow_fields = ['sfss1', 'sfss2', 'sfss3', 'sfss4', 'sfss5', 'sfss6', 'sfss7', 'sfss8', 'sfss9', 'sdb1', 'sdb2', 'sdb3']
+        flow_fields = ['sfss1', 'sfss2', 'sfss3', 'sfss4', 'sfss5', 'sfss6', 'sfss7', 'sfss8', 'sfss9', 'sdb1', 'sdb2',
+                       'sdb3']
         random.shuffle(flow_fields)
         all_fields = flow_fields
 
@@ -219,9 +201,14 @@ class TaskQuestionnaire(Page):
         random.shuffle(mw_fields)
         all_fields += mw_fields
 
-        all_fields += ['tlx', 'control_text_interest', 'control_music_liking', 'control_music_turnoff']
+        bd_fields = ['bd1', 'bd2', 'bd3', 'bd4', 'bd5', 'bd6', ]
+        random.shuffle(bd_fields)
+        all_fields += bd_fields
+
+        all_fields += ['tlx', 'control_music_liking', 'control_music_turnoff']
 
         return all_fields
+
 
 class StateQuestionnaire(Page):
     form_model = 'player'
@@ -235,5 +222,4 @@ class Done(Page):
         return player.round_number == C.NUM_ROUNDS
 
 
-page_sequence = [Instructions1, Instructions2, Task, TaskQuestionnaire, StateQuestionnaire, Done]
-
+page_sequence = [Instructions, Task, TaskQuestionnaire, StateQuestionnaire, Done]

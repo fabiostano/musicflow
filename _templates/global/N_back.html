@@ -1,0 +1,215 @@
+{% extends 'global/Page.html' %}
+
+{% block title %}
+    <div class="d-flex justify-content-center" style="margin-top: -50px">
+        <h2 style="margin-bottom:20px">EMAIL TASK </h2>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+<style>
+    @media (min-width: 1200px) {
+        .container {
+            width: 1950px !important;
+        }
+    }
+    .otree-body {
+        max-width: 1950px;
+    }
+
+    body {
+        background-color: black;
+    }
+
+    .snippetImg {
+        display:none;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 7px;
+        max-width: 100%;
+        outline-offset: -4px;
+        max-height: 17px;
+    }
+
+    .currentSnippet {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        max-width: 100%;
+      }
+
+    .otree-timer {
+        display: none;
+    }
+
+    .img-wrapper {
+      position: relative;
+      width: 100%;
+      font-size: 0;
+    }
+
+    .img-overlay-green {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+        background-color: rgba(0, 500, 0, 0.5);
+    }
+
+    .img-overlay-red {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(500, 0, 0, 0.5);
+    }
+
+    .img-overlay-blue {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    background-color: rgba(0, 0, 500, 0.5);
+    }
+</style>
+
+{{ if treatment == 'music'}}
+{{ if playlist == 'lofi.mp3'}}
+    <audio id="background-audio" autoplay loop>
+        <source src="{% static 'music/lofi.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{{ endif }}
+{{ if playlist == 'jazz.mp3'}}
+    <audio id="background-audio" autoplay loop>
+        <source src="{% static 'music/jazz.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{{ endif }}
+{{ if playlist == 'classical.mp3'}}
+    <audio id="background-audio" autoplay loop>
+        <source src="{% static 'music/classical.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{{ endif }}
+{{ if playlist == 'house.mp3'}}
+    <audio id="background-audio" autoplay loop>
+        <source src="{% static 'music/house.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{{ endif }}
+{{ endif }}
+
+<div id="workingarea" class="row">
+    <div class="col-md-12">
+        <div id="email-display" class="email-snippet"></div>
+        <div class="d-flex justify-content-center mt-4">
+            <button id="matchBtn" class="btn btn-danger btn-lg mx-2">Delete</button>
+            <button id="noMatchBtn" class="btn btn-sucess btn-lg mx-2">Keep</button>
+        </div>
+    </div>
+</div>
+
+<!-- NEXT BUTTON -->
+<div id="nextbuttondiv" style="display:none">
+    <h4 id="timeup"  style="text-align: center">Time is up! Click the button below to continue.</h4>
+    <div class="d-flex justify-content-center">
+        <button class="btn-primary btn-lg" id="nextbtn">Next</button>
+    </div>
+</div>
+
+ <!-- Logging field -->
+<input type="hidden" name="load_time" id="load_time" value=""/>
+{{ formfield_errors 'load_time' }}
+<input type="hidden" name="responses" id="responses" value=""/>
+{{ formfield_errors 'responses' }}
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    console.log("Snippet sequence:", {{ snippet_sequence|tojson }});
+
+    var currTime = 0;
+    setInterval(timer, 1000);
+    let emailSnippets = {{ snippet_sequence|tojson }};
+    let currentIndex = 0;
+    let previousSnippet = null;
+    let log = [];
+
+
+    function displayNextSnippet() {
+        if (currentIndex >= emailSnippets.length) {
+            endTask();
+            return;
+        }
+        const current = emailSnippets[currentIndex];
+        document.getElementById("email-display").innerText = current;
+        currentIndex++;
+    }
+
+    function logResponse(isMatch) {
+        const previous = previousSnippet;
+        const current = emailSnippets[currentIndex - 1];
+        log.push({
+            timestamp: Date.now(),
+            previous: previous,
+            current: current,
+            matchClicked: isMatch,
+            correct: (previous === current) === isMatch
+        });
+        previousSnippet = current;
+        displayNextSnippet();
+    }
+
+    function endTask() {
+        document.getElementById("workingarea").style.display = "none";
+        document.getElementById("nextbuttondiv").style.display = "block";
+        document.getElementById("responses").value = JSON.stringify(log);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("load_time").value = Date.now();
+        document.getElementById("matchBtn").addEventListener("click", function () {
+            logResponse(true);
+        });
+        document.getElementById("noMatchBtn").addEventListener("click", function () {
+            logResponse(false);
+        });
+        displayNextSnippet();
+    });
+
+    let trialStartTime = null;
+
+    function displayNextSnippet() {
+        if (currentIndex >= emailSnippets.length) {
+            endTask();
+            return;
+        }
+        const current = emailSnippets[currentIndex];
+        document.getElementById("email-display").innerText = current;
+        currentIndex++;
+        trialStartTime = Date.now();
+    }
+
+    log.push({
+        timestamp: Date.now(),
+        rt: Date.now() - trialStartTime,
+        previous: previous,
+        current: current,
+        matchClicked: isMatch,
+        correct: (previous === current) === isMatch
+    });
+
+
+
+</script>
+
+{% endblock %}

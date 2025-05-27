@@ -41,7 +41,7 @@ class Player(BasePlayer):
 
     occupation = models.StringField(
         label='What is your current occupation?',
-        choices=["Apprentice", "Student", "Employee", "Entrepreneur", "Other"]
+        choices=["Apprentice", "Student", "Employee", "Self-Employed", "Unemployed", "Other"]
     )
 
     ### --- STATE Q --- ###

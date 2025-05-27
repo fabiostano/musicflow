@@ -1,0 +1,216 @@
+{% extends 'global/Page.html' %}
+
+{% block title %}
+<div class="d-flex justify-content-center" style="margin-top: -50px">
+    <h2 style="margin-bottom:20px">EMAIL TASK </h2>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .otree-body {
+        max-width: 1950px;
+    }
+
+    #email-display .loader {
+        display: inline-block;
+        width: 1.5em;
+        height: 1.5em;
+        border: 3px solid #007bff;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    #workingarea {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30vh;   /* adjust as you like */
+    }
+
+    #email-display {
+        background-color: white;
+        color: black;
+        border: 1px solid #007bff;    /* bootstrap primary blue */
+        padding: 20px 30px;
+        border-radius: 5px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 2rem;
+        max-width: 60%;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* Icon styling */
+    #email-display .icon {
+        margin-right: 12px;
+        font-size: 1.5em;
+        color: #007bff;
+    }
+
+    body {
+        background-color: black;
+    }
+
+    .otree-timer {
+        display: none;
+    }
+</style>
+
+{{ if treatment == 'music'}}
+{{ if playlist == 'lofi.mp3'}}
+<audio id="background-audio" autoplay loop>
+    <source src="{% static 'music/lofi.mp3' %}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+{{ endif }}
+{{ if playlist == 'jazz.mp3'}}
+<audio id="background-audio" autoplay loop>
+    <source src="{% static 'music/jazz.mp3' %}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+{{ endif }}
+{{ if playlist == 'classical.mp3'}}
+<audio id="background-audio" autoplay loop>
+    <source src="{% static 'music/classical.mp3' %}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+{{ endif }}
+{{ if playlist == 'house.mp3'}}
+<audio id="background-audio" autoplay loop>
+    <source src="{% static 'music/house.mp3' %}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+{{ endif }}
+{{ endif }}
+
+<div id="workingarea" class="row">
+    <div id="email-display" class="email-snippet"></div>
+
+    <!-- hidden by default: blue hourglass -->
+    <div id="loading-icon" style="display:none; text-align:center; margin:40px 0;">
+        <span style="font-size:3rem; color:#007bff;">⌛</span>
+    </div>
+
+
+    <div class="d-flex justify-content-center mt-4">
+        <button id="matchBtn" class="btn btn-danger btn-lg mx-2" type="button">Delete</button>
+        <button id="noMatchBtn" class="btn btn-success btn-lg mx-2" type="button">Keep</button>
+    </div>
+
+</div>
+
+<!-- NEXT BUTTON -->
+<div id="nextbuttondiv" style="display:none">
+    <h4 id="timeup"  style="text-align: center">Time is up! Click the button below to continue.</h4>
+    <div class="d-flex justify-content-center">
+        <button class="btn-primary btn-lg" id="nextbtn">Next</button>
+    </div>
+</div>
+
+<!-- Logging field -->
+<input type="hidden" name="load_time" id="load_time" value=""/>
+{{ formfield_errors 'load_time' }}
+<input type="hidden" name="responses" id="responses" value=""/>
+{{ formfield_errors 'responses' }}
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    // 1) Timer: count up and finish when time is up
+    var currTime = 0;
+    var maxTime = {{ trialTime }};
+    var timerID = setInterval(function() {
+        currTime++;
+        if (currTime >= maxTime) {
+            clearInterval(timerID);
+            finishTask();
+        }
+    }, 1000);
+
+    // 2) Your list of emails
+    var emailSnippets = [{% for snippet in snippet_sequence %}'{{ snippet|escape }}', {% endfor %}];
+
+    // 3) State variables
+    var previousSnippet = null;
+    var displayedSnippet = null;
+    var log = [];
+    var trialStartTime = null;
+
+    // 4) Show next snippet (random, with 10% repeat)
+    function displayNextSnippet() {
+        var next;
+        if (previousSnippet !== null && Math.random() < 0.34) {
+            next = previousSnippet;
+        } else {
+            next = emailSnippets[
+                Math.floor(Math.random() * emailSnippets.length)
+                ];
+        }
+        document.getElementById("email-display").innerHTML ='<span class="icon">📧</span><span>' + next + '</span>';
+        displayedSnippet = next;
+        trialStartTime = Date.now();
+    }
+
+    // 5) Record response and immediately show the next
+    function recordResponse(isMatch) {
+        // log your response as before...
+        const decisionTimestamp = Date.now();
+        const wasMatch = previousSnippet !== null && previousSnippet === displayedSnippet;
+        const correct = wasMatch === isMatch ? 1 : 0;
+        log.push([ trialStartTime, decisionTimestamp, correct ]);
+
+        previousSnippet = displayedSnippet;
+
+        // 1) hide the email box, show the static hourglass
+        document.getElementById("email-display").style.display = "none";
+        document.getElementById("loading-icon").style.display = "block";
+
+        // 2) disable buttons during downtime
+        matchBtn.disabled = true;
+        noMatchBtn.disabled = true;
+
+        // 3) after 2 seconds, hide loader, re-enable buttons, and show next snippet
+        setTimeout(() => {
+            document.getElementById("loading-icon").style.display = "none";
+            document.getElementById("email-display").style.display = "block";
+            matchBtn.disabled = false;
+            noMatchBtn.disabled = false;
+            displayNextSnippet();
+        }, 500);
+    }
+
+
+    // 6) Finish the task: hide working area, show Next, save log
+    function finishTask() {
+        // guard: only finish once
+        if (document.getElementById("workingarea").style.display === "none") {
+            return;
+        }
+        document.getElementById("workingarea").style.display = "none";
+        document.getElementById("nextbuttondiv").style.display = "block";
+        document.getElementById("responses").value = JSON.stringify(log);
+    }
+
+    // 7) Wire everything up
+    document.addEventListener("DOMContentLoaded", function () {
+        // record load time
+        document.getElementById("load_time").value = Date.now();
+        // button clicks
+        document.getElementById("matchBtn")
+            .addEventListener("click", function () { recordResponse(true); });
+        document.getElementById("noMatchBtn")
+            .addEventListener("click", function () { recordResponse(false); });
+        // start the first trial
+        displayNextSnippet();
+    });
+
+
+</script>
+
+{% endblock %}

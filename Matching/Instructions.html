@@ -1,0 +1,33 @@
+{{ extends 'global/Page.html' }}
+
+{{ block title }}
+
+    <div class="d-flex justify-content-center" style="margin-top: -50px">
+        <h2 style="margin-bottom:20px">DATA CHECKING TASK: ROUND </h2>
+    </div>
+
+{{ endblock }}
+
+{{ block content }}
+
+    <div class="explanation-container">
+        <h4>Scenario:</h4>
+        <p> Your company has decided to digitize the employee information database.</p>
+        <p> For that reason, interns have already transcribed all the information from paper form into a software system. </p>
+        <p> To avoid mistakes, all entries have been transcribed twice by the interns. </p>
+        <p> Your task will be to check whether all these duplicates match, and find where there is a mismatch. </p>
+    </div>
+
+    <div class="explanation-container">
+        <h4> Task: </h4>
+        <p>Over the next 10 minutes, you will be presented with pairs of filled out forms, which need to be checked
+        for matches.</p>
+        <p>For each pair, it is your task to check whether the content of the forms is the same or differs in one
+        of the fields.</p>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <button class="otree-btn-next btn btn-primary next-button otree-next-button">Next</button>
+    </div>
+
+{{ endblock }}
