@@ -206,7 +206,7 @@ class Player(BasePlayer):
     o_02 = models.LongStringField(label="Did the music help with the tasks? If yes how?", blank=True)
     o_03 = models.LongStringField(label="Did the music help more for one task than the other?", blank=True)
 
-    mt_o_01 = models.LongStringField(label="Why do you listen to music at work, if you do? Why not, if you don't?", blank=True)
+    mt_o_01 = models.LongStringField(label="Why do you listen to music at work, if you do? Why not, if you don't? How does it help, how does it hurt?", blank=True)
     mt_o_02 = models.LongStringField(label="For which tasks do you listen to music at work? For which specifically not?", blank=True)
     mt_o_03 = models.LongStringField(label="In which places do you listen to music at work? In which specifically not?", blank=True)
     mt_o_04 = models.LongStringField(label="To which kind of music do you listen to at work? To which specifically not?", blank=True)
