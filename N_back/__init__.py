@@ -178,7 +178,7 @@ class Task(Page):
         random.shuffle(titles)
         return {
             "snippet_sequence": titles,
-            "trialTime": 10,
+            "trialTime": 10*60,
             "treatment": player.treatment,
             "playlist": player.participant.playlist,
             "round_number": player.round_number,
