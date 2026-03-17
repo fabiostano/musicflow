@@ -99,47 +99,60 @@
 <!-- hidden fields -->
 <input type="hidden" name="load_time"      id="load_time"      value=""/>
 <input type="hidden" name="responses"      id="responses"      value=""/>
-<input type="hidden" name="esm_flow_focus" id="esm_flow_focus" value=""/>
-<input type="hidden" name="esm_flow_control" id="esm_flow_control" value=""/>
-<input type="hidden" name="esm_flow_absorption" id="esm_flow_absorption" value=""/>
+<input type="hidden" name="esm5_fks6" id="esm5_fks6" value=""/>
+<input type="hidden" name="esm5_fks8" id="esm5_fks8" value=""/>
+<input type="hidden" name="esm5_fks9" id="esm5_fks9" value=""/>
+<input type="hidden" name="esm10_fks6" id="esm10_fks6" value=""/>
+<input type="hidden" name="esm10_fks8" id="esm10_fks8" value=""/>
+<input type="hidden" name="esm10_fks9" id="esm10_fks9" value=""/>
 
 <div id="esm-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.65); z-index:9999; align-items:center; justify-content:center;">
-    <div style="background:white; color:black; width:min(680px, 92vw); border-radius:12px; padding:20px 24px;">
+    <div style="background:white; color:black; width:min(980px, 95vw); border-radius:12px; padding:20px 24px;">
         <h4 style="margin-bottom:8px;">Quick check-in</h4>
-        <p style="margin-bottom:16px;">Please answer these 3 quick questions (1 = strongly disagree, 5 = strongly agree).</p>
+        <p style="margin-bottom:16px;">Please rate the following statements.</p>
 
-        <div style="margin-bottom:12px;">
-            <label><strong>I was fully focused on the task.</strong></label>
-            <div>
-                <label><input type="radio" name="esm_q1" value="1"> 1</label>
-                <label><input type="radio" name="esm_q1" value="2"> 2</label>
-                <label><input type="radio" name="esm_q1" value="3"> 3</label>
-                <label><input type="radio" name="esm_q1" value="4"> 4</label>
-                <label><input type="radio" name="esm_q1" value="5"> 5</label>
-            </div>
-        </div>
-
-        <div style="margin-bottom:12px;">
-            <label><strong>I felt in control of what I was doing.</strong></label>
-            <div>
-                <label><input type="radio" name="esm_q2" value="1"> 1</label>
-                <label><input type="radio" name="esm_q2" value="2"> 2</label>
-                <label><input type="radio" name="esm_q2" value="3"> 3</label>
-                <label><input type="radio" name="esm_q2" value="4"> 4</label>
-                <label><input type="radio" name="esm_q2" value="5"> 5</label>
-            </div>
-        </div>
-
-        <div style="margin-bottom:16px;">
-            <label><strong>I was deeply absorbed in the task.</strong></label>
-            <div>
-                <label><input type="radio" name="esm_q3" value="1"> 1</label>
-                <label><input type="radio" name="esm_q3" value="2"> 2</label>
-                <label><input type="radio" name="esm_q3" value="3"> 3</label>
-                <label><input type="radio" name="esm_q3" value="4"> 4</label>
-                <label><input type="radio" name="esm_q3" value="5"> 5</label>
-            </div>
-        </div>
+        <table class="table mytable" frame="void" style="width:100%;">
+            <tr>
+                <th></th>
+                <th style="text-align:center">Strongly Disagree</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th style="text-align:center">Strongly Agree</th>
+            </tr>
+            <tr>
+                <td align="left" style="width:45%">I was totally absorbed in what I am doing.</td>
+                <td align="center"><input type="radio" name="esm_q1" value="1"></td>
+                <td align="center"><input type="radio" name="esm_q1" value="2"></td>
+                <td align="center"><input type="radio" name="esm_q1" value="3"></td>
+                <td align="center"><input type="radio" name="esm_q1" value="4"></td>
+                <td align="center"><input type="radio" name="esm_q1" value="5"></td>
+                <td align="center"><input type="radio" name="esm_q1" value="6"></td>
+                <td align="center"><input type="radio" name="esm_q1" value="7"></td>
+            </tr>
+            <tr>
+                <td align="left">I knew what I had to do each step of the way.</td>
+                <td align="center"><input type="radio" name="esm_q2" value="1"></td>
+                <td align="center"><input type="radio" name="esm_q2" value="2"></td>
+                <td align="center"><input type="radio" name="esm_q2" value="3"></td>
+                <td align="center"><input type="radio" name="esm_q2" value="4"></td>
+                <td align="center"><input type="radio" name="esm_q2" value="5"></td>
+                <td align="center"><input type="radio" name="esm_q2" value="6"></td>
+                <td align="center"><input type="radio" name="esm_q2" value="7"></td>
+            </tr>
+            <tr>
+                <td align="left">I felt that I have everything under control.</td>
+                <td align="center"><input type="radio" name="esm_q3" value="1"></td>
+                <td align="center"><input type="radio" name="esm_q3" value="2"></td>
+                <td align="center"><input type="radio" name="esm_q3" value="3"></td>
+                <td align="center"><input type="radio" name="esm_q3" value="4"></td>
+                <td align="center"><input type="radio" name="esm_q3" value="5"></td>
+                <td align="center"><input type="radio" name="esm_q3" value="6"></td>
+                <td align="center"><input type="radio" name="esm_q3" value="7"></td>
+            </tr>
+        </table>
 
         <button id="esm-submit" type="button" class="btn btn-primary">Continue task</button>
     </div>
@@ -290,10 +303,21 @@
 
         const overlay = document.getElementById("esm-overlay");
         const esmSubmit = document.getElementById("esm-submit");
+        let currentEsmSlot = null;
 
-        setTimeout(() => {
+        function clearEsmSelections() {
+            document.querySelectorAll('input[name="esm_q1"], input[name="esm_q2"], input[name="esm_q3"]')
+                .forEach((el) => el.checked = false);
+        }
+
+        function openEsm(slot) {
+            currentEsmSlot = slot;
+            clearEsmSelections();
             overlay.style.display = "flex";
-        }, 5 * 60 * 1000);
+        }
+
+        setTimeout(() => openEsm("5"), 5 * 60 * 1000);
+        setTimeout(() => openEsm("10"), 10 * 60 * 1000);
 
         esmSubmit.addEventListener("click", () => {
             const q1 = document.querySelector('input[name="esm_q1"]:checked');
@@ -305,9 +329,17 @@
                 return;
             }
 
-            document.getElementById("esm_flow_focus").value = q1.value;
-            document.getElementById("esm_flow_control").value = q2.value;
-            document.getElementById("esm_flow_absorption").value = q3.value;
+            if (currentEsmSlot === "5") {
+                document.getElementById("esm5_fks6").value = q1.value;
+                document.getElementById("esm5_fks8").value = q2.value;
+                document.getElementById("esm5_fks9").value = q3.value;
+            }
+            if (currentEsmSlot === "10") {
+                document.getElementById("esm10_fks6").value = q1.value;
+                document.getElementById("esm10_fks8").value = q2.value;
+                document.getElementById("esm10_fks9").value = q3.value;
+            }
+
             overlay.style.display = "none";
         });
 
