@@ -42,15 +42,14 @@
     </audio>
 {{ endif }}
 
-<div class="jumbotron" style="padding-top: 5%">
+
+<div class="jumbotron" style="padding-top: 5%; background-color: #f2f2f2">
     <div id="instructions">
-        <p>Over the next few minutes please try to relax. You can let your mind wander where it takes you.</p>
+        <p>Music should be playing currently. If it doesn't, please open your door and inform a lab assistant.</p>
 
-        <p>Music should be playing currently. If it doesn't please open your door and inform a lab assistant.</p>
+        <p>Over the next 30 seconds please try to ignore the music (i.e. "listen away") and focus on reading the story below. Try to memorize the important facts.</p>
 
-        <p>Please <a style="color: #FFA500"><b>close your eyes</b></a> the whole time. Also, please avoid unnecessary movements.</p>
-
-        <p>When the music stops, the phase is over, and you can open your eyes again.</p>
+        <p><br />Please <a style="color: #18bc9c"><b>keep your eyes open</b></a> and focused on the cross in the middle of the screen the whole time. Also, please avoid unnecessary movements.</p>
 
         <p> </p>
 
@@ -59,16 +58,17 @@
         <p><button class="btn btn-danger" id="taskStartButton" type="button">Start</button></p>
     </div>
     <div id="stimulus" style="display: none">
-        <p>Please <a style="color: #FFA500"><b>close your eyes now</b></a>.</p>
-        <p><img alt="" src="{{ static 'two-eyelashes.png' }}" style="display: block; margin-left: auto; margin-right: auto; width: 50%;" /></p>
+        <p>During a late evening walk, a man noticed that one streetlight was flickering in a steady rhythm, almost like a signal. Curious, he stopped and counted the intervals between the flashes. After a few moments, he realized that the pattern repeated every 10 seconds. </p>
+        <p>As he looked around, he saw that the surrounding buildings were completely dark, except for a single window on the third floor where a dim light was still on. He wondered whether someone inside might also have noticed the strange flickering, or if it was just a coincidence.</p>
+        <p>Before leaving, he checked his watch and made a mental note of the time - it was exactly 1 AM. He was thinking he might return the next day to see if the pattern would occur again.</p>
     </div>
     <div id="finish" style="display: none">
         <p>The resting phase <span style="color:#FFA500;"><strong>is now over.</strong></span></p>
     </div>
 </div>
 
-<input type="hidden" name="start_time_ec_m" id="start_time_ec_m" value=""/>
-{{ formfield_errors 'start_time_ec_m' }}
+<input type="hidden" name="start_time_eo_m" id="start_time_eo_m" value=""/>
+{{ formfield_errors 'start_time_eo_m' }}
 
 <div class="d-flex justify-content-center" style="clear:both">
     <button class="otree-btn-next btn btn-primary next-button otree-next-button" id="nextbtn">Next</button>
@@ -77,7 +77,7 @@
 <script>
     function startTask(instField, taskField, taskOverField, nextBtn) {
         return function () {
-            document.getElementById("start_time_ec_m").value = Date.now();
+             document.getElementById("start_time_eo_m").value = Date.now();
 
             // Hide instruction field
             instField.style.display = "none";
@@ -95,12 +95,13 @@
             // Stop Music
             document.getElementById('background-audio').pause();
 
-            // Hide Task and show move-on message
             taskField.style.display = "none";
             taskOverField.style.display = "block";
 
             nextBtn.disabled = false;
             nextBtn.style.display = "block";
+
+            logTimeDirect(loggingField, 'timeOut');
         }, intTime);
     }
 
@@ -109,7 +110,7 @@
         nextBtn.disabled = true;
         nextBtn.style.display = "none";
 
-        let instFieldDiv = document.getElementById("instructions");
+           let instFieldDiv = document.getElementById("instructions");
         let taskFieldDiv = document.getElementById("stimulus");
         taskFieldDiv.style.display = "none";
 

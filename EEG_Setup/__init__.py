@@ -20,7 +20,8 @@ class Player(BasePlayer):
     rest_actions_eo = models.StringField(label="")
     rest_actions_ec = models.StringField(label="")
     start_time_eo_m = models.StringField(label="")
-    start_time_ec_m = models.StringField(label="")
+    start_time_eo_assr_attended = models.StringField(label="")
+    start_time_eo_assr_ignored = models.StringField(label="")
 
 class RestEyesOpen(Page):
     form_model = 'player'
@@ -56,19 +57,27 @@ class RestEyesOpen_Music(Page):
         }
 
 
-class RestEyesClosed_Music(Page):
+class RestEyesOpen_ASSR_attended(Page):
     form_model = 'player'
-    form_fields = ['start_time_ec_m']
+    form_fields = ['start_time_eo_assr_attended']
 
     @staticmethod
     def vars_for_template(player: Player):
         return {
             "playlist": 'lofi.mp3',
-            "duration": C.DURATION
+            "duration": 30
+        }
+
+class RestEyesOpen_ASSR_ignored(Page):
+    form_model = 'player'
+    form_fields = ['start_time_eo_assr_ignored']
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return {
+            "playlist": 'lofi.mp3',
+            "duration": 30
         }
 
 
-
-
-
-page_sequence = [RestEyesOpen, RestEyesClosed, RestEyesOpen_Music, RestEyesClosed_Music]
+page_sequence = [RestEyesOpen, RestEyesClosed, RestEyesOpen_Music, RestEyesOpen_ASSR_attended, RestEyesOpen_ASSR_ignored]
