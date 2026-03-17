@@ -316,8 +316,8 @@
             overlay.style.display = "flex";
         }
 
-        setTimeout(() => openEsm("5"), 5 * 60 * 1000);
-        setTimeout(() => openEsm("10"), 10 * 60 * 1000);
+        setTimeout(() => openEsm("5"), 0.5 * 60 * 1000);
+        setTimeout(() => openEsm("10"), 1.5 * 60 * 1000);
 
         esmSubmit.addEventListener("click", () => {
             const q1 = document.querySelector('input[name="esm_q1"]:checked');

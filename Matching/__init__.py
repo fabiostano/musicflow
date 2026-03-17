@@ -61,14 +61,6 @@ class Player(BasePlayer):
 
     ### --- STATE Q --- ###
 
-    # ----- Mental Readiness ----- #
-    mr1 = models.IntegerField(label="How are you feeling right now?",
-                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']], widget=widgets.RadioSelectHorizontal)
-    mr2 = models.IntegerField(label="How sleepy are you feeling right now?.",
-                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']], widget=widgets.RadioSelectHorizontal)
-    mr3 = models.IntegerField(label="How motivated are you feeling right now?",
-                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']], widget=widgets.RadioSelectHorizontal)
-
     # ----- Pleasure & Arousal ----- #
     pleasure = models.IntegerField(label="test", choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
                                    widget=widgets.RadioSelectHorizontal)
@@ -233,7 +225,7 @@ class Task(Page):
             "departments": load_csv_list("departments.csv"),
             "supervisors": load_csv_list("supervisor_names.csv"),
             "addresses": load_csv_list("addresses.csv"),
-            "trialTime": 15*60,
+            "trialTime": 2*60,
             "playlist": player.participant.playlist,
             "treatment": player.treatment
         }
