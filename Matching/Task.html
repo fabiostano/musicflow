@@ -50,6 +50,34 @@
     }
 </style>
 
+
+{{ if treatment == 'music'}}
+{{ if playlist == 'lofi.mp3'}}
+<audio id="background-audio" autoplay loop>
+    <source src="{% static 'music/lofi.mp3' %}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+{{ endif }}
+{{ if playlist == 'jazz.mp3'}}
+<audio id="background-audio" autoplay loop>
+    <source src="{% static 'music/jazz.mp3' %}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+{{ endif }}
+{{ if playlist == 'classical.mp3'}}
+<audio id="background-audio" autoplay loop>
+    <source src="{% static 'music/classical.mp3' %}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+{{ endif }}
+{{ if playlist == 'house.mp3'}}
+<audio id="background-audio" autoplay loop>
+    <source src="{% static 'music/house.mp3' %}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+{{ endif }}
+{{ endif }}
+
 <div id="workingarea">
     <div id="form-left"  class="form-box"></div>
     <div id="form-right" class="form-box"></div>

@@ -181,7 +181,9 @@ class Task(Page):
             "departments": load_csv_list("departments.csv"),
             "supervisors": load_csv_list("supervisor_names.csv"),
             "addresses": load_csv_list("addresses.csv"),
-            "trialTime": 10,
+            "trialTime": 10*60,
+            "playlist": player.participant.playlist,
+            "treatment": player.treatment
         }
 
 

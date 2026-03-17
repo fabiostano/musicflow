@@ -8,7 +8,9 @@ SESSION_CONFIGS = [dict(name='full_research_first', num_demo_participants=2, app
                    dict(name='transcription', num_demo_participants=None, app_sequence=['Transcription']),
                    dict(name='nback', num_demo_participants=None, app_sequence=['Intro', 'N_back']),
                    dict(name='matching', num_demo_participants=None, app_sequence=['Intro', 'Matching']),
-                   dict(name='pretest', num_demo_participants=None, app_sequence=['Intro', 'N_back', 'Matching', 'Outro'])]
+                   dict(name='pretest', num_demo_participants=None, app_sequence=['Intro', 'N_back', 'Matching', 'Outro']),
+                   dict(name='pre_mail_first', num_demo_participants=None, app_sequence=['Intro', 'N_back', 'Matching', 'Outro']),
+                   dict(name='pre_data_first', num_demo_participants=None, app_sequence=['Intro', 'Matching', 'N_back', 'Outro'])]
 LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'EUR'
 USE_POINTS = False
