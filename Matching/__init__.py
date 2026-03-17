@@ -68,7 +68,7 @@ class Player(BasePlayer):
                                   widget=widgets.RadioSelectHorizontal)
 
     # ----- Mental Fatigue ----- #
-    mf1 = models.IntegerField(label="If I were to do someting right now, I could keep my thoughts focused on it.",
+    mf1 = models.IntegerField(label="If I were to do something right now, I could keep my thoughts focused on it.",
                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
     mf2 = models.IntegerField(label="Right now, I could concentrate well.",
                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
