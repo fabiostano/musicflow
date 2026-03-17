@@ -80,4 +80,4 @@ class RestEyesOpen_ASSR_ignored(Page):
         }
 
 
-page_sequence = [RestEyesOpen, RestEyesClosed, RestEyesOpen_Music, RestEyesOpen_ASSR_attended, RestEyesOpen_ASSR_ignored]
+page_sequence = [RestEyesClosed, RestEyesOpen, RestEyesOpen_Music, RestEyesOpen_ASSR_attended, RestEyesOpen_ASSR_ignored]

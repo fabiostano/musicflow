@@ -63,12 +63,33 @@
         <p>Before leaving, he checked his watch and made a mental note of the time - it was exactly 1 AM. He was thinking he might return the next day to see if the pattern would occur again.</p>
     </div>
     <div id="finish" style="display: none">
-        <p>The resting phase <span style="color:#FFA500;"><strong>is now over.</strong></span></p>
+        <p>The baseline block <span style="color:#FFA500;"><strong>is now over.</strong></span></p>
+        <p>Please answer this short attention check before continuing.</p>
+
+        <div id="assr-quiz">
+            <p><strong>Based on the story, are these statements true?</strong></p>
+
+            <div class="form-group"><label>1) The protagonist of the story was a man.</label>
+                <select class="form-control assr-q" data-q="1"><option value="">Select...</option><option>Yes</option><option>No</option><option>Not sure</option></select>
+            </div>
+            <div class="form-group"><label>2) The flickering pattern repeated every 10 seconds.</label>
+                <select class="form-control assr-q" data-q="2"><option value="">Select...</option><option>Yes</option><option>No</option><option>Not sure</option></select>
+            </div>
+            <div class="form-group"><label>3) The only remaining light was on the 6th floor.</label>
+                <select class="form-control assr-q" data-q="3"><option value="">Select...</option><option>Yes</option><option>No</option><option>Not sure</option></select>
+            </div>
+            <div class="form-group"><label>4) The time was 4 PM.</label>
+                <select class="form-control assr-q" data-q="4"><option value="">Select...</option><option>Yes</option><option>No</option><option>Not sure</option></select>
+            </div>
+
+            <button class="btn btn-success" type="button" id="quizDoneBtn">Done</button>
+            <p id="quizWarn" style="display:none; color:#c0392b; margin-top:8px;">Please answer all items first.</p>
+        </div>
     </div>
 </div>
 
-<input type="hidden" name="start_time_eo_m" id="start_time_eo_m" value=""/>
-{{ formfield_errors 'start_time_eo_m' }}
+<input type="hidden" name="start_time_eo_assr_ignored" id="start_time_eo_assr_ignored" value=""/>
+{{ formfield_errors 'start_time_eo_assr_ignored' }}
 
 <div class="d-flex justify-content-center" style="clear:both">
     <button class="otree-btn-next btn btn-primary next-button otree-next-button" id="nextbtn">Next</button>
@@ -77,13 +98,10 @@
 <script>
     function startTask(instField, taskField, taskOverField, nextBtn) {
         return function () {
-             document.getElementById("start_time_eo_m").value = Date.now();
+            document.getElementById("start_time_eo_assr_ignored").value = Date.now();
 
-            // Hide instruction field
             instField.style.display = "none";
             taskField.style.display = "block";
-
-            // Schedule the timer
             scheduleInterruption(nextBtn, taskField, taskOverField);
         }
     }
@@ -92,34 +110,42 @@
         const intTime = {{ duration }} * 1000;
 
         setTimeout(function(){
-            // Stop Music
-            document.getElementById('background-audio').pause();
+            const audio = document.getElementById('background-audio');
+            if (audio) audio.pause();
 
             taskField.style.display = "none";
             taskOverField.style.display = "block";
-
-            nextBtn.disabled = false;
-            nextBtn.style.display = "block";
-
-            logTimeDirect(loggingField, 'timeOut');
         }, intTime);
     }
 
-    jQuery(document).ready( function() {
-        let nextBtn = document.getElementById("nextbtn");
+    jQuery(document).ready(function() {
+        const nextBtn = document.getElementById("nextbtn");
         nextBtn.disabled = true;
         nextBtn.style.display = "none";
 
-           let instFieldDiv = document.getElementById("instructions");
-        let taskFieldDiv = document.getElementById("stimulus");
+        const instFieldDiv = document.getElementById("instructions");
+        const taskFieldDiv = document.getElementById("stimulus");
         taskFieldDiv.style.display = "none";
 
-        let taskOverFieldDiv = document.getElementById("finish");
+        const taskOverFieldDiv = document.getElementById("finish");
         taskOverFieldDiv.style.display = "none";
 
         const startBtn = document.getElementById("taskStartButton");
         startBtn.addEventListener("click", startTask(instFieldDiv, taskFieldDiv, taskOverFieldDiv, nextBtn));
-    } );
+
+        const quizDoneBtn = document.getElementById("quizDoneBtn");
+        const quizWarn = document.getElementById("quizWarn");
+        quizDoneBtn.addEventListener("click", function() {
+            const allAnswered = Array.from(document.querySelectorAll('.assr-q')).every(el => el.value !== "");
+            if (!allAnswered) {
+                quizWarn.style.display = "block";
+                return;
+            }
+            quizWarn.style.display = "none";
+            nextBtn.disabled = false;
+            nextBtn.style.display = "block";
+        });
+    });
 </script>
 
 {% endblock %}
