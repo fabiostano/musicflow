@@ -16,7 +16,7 @@ ROOMS = [dict(name='my_room', display_name='my_room')]
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable
-ADMIN_PASSWORD = 'kd2lab4ever'
+ADMIN_PASSWORD = 'flow5life'
 
 SECRET_KEY = 'blahblah'
 

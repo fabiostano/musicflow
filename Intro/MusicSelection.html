@@ -15,7 +15,7 @@
     <p>Before we start with the tasks, you must select the music that you want to listen to while working.</p>
     <p>To make the scenario as realistic as possible, please select the playlist that you would most likely
         listen to during your work (or studying) in a real-world case.</p>
-    <p>Below you find 4 different playlists of common study/work music. You can also play quick previews to get
+    <p>Below you find 3 different playlists of common study/work music. You can also play quick previews to get
         a feeling for the music.</p>
     <p>To select a playlist, just click on the cover image and then click "Next".</p>
 </div>
@@ -23,31 +23,24 @@
 <div class="survey-container">
     <h3>Select a Playlist</h3>
     <div class="playlist-container">
-        <div class="playlist" data-music="classical.mp3">
-            <img src="{% static 'music/classical.png' %}" alt="Classical Playlist">
+        <div class="playlist" data-music="ambient.mp3">
+            <img src="{% static 'music/jazz.png' %}" alt="Ambient Playlist">
             <audio controls preload="metadata">
-                <source src="{% static 'music/classical.mp3' %}#t=30,40" type="audio/mpeg">
+                <source src="{% static 'music/new/ambient.mp3' %}#t=30,40" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
         </div>
         <div class="playlist" data-music="house.mp3">
             <img src="{% static 'music/house.png' %}" alt="House Playlist">
             <audio controls preload="metadata">
-                <source src="{% static 'music/house.mp3' %}#t=30,40" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-        </div>
-        <div class="playlist" data-music="jazz.mp3">
-            <img src="{% static 'music/jazz.png' %}" alt="Jazz Playlist">
-            <audio controls preload="metadata">
-                <source src="{% static 'music/jazz.mp3' %}#t=30,40" type="audio/mpeg">
+                <source src="{% static 'music/new/house.mp3' %}#t=30,40" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
         </div>
         <div class="playlist" data-music="lofi.mp3">
             <img src="{% static 'music/lofi.png' %}" alt="Lofi Playlist">
             <audio controls preload="metadata">
-                <source src="{% static 'music/lofi.mp3' %}#t=30,40" type="audio/mpeg">
+                <source src="{% static 'music/new/lofi.mp3' %}#t=30,40" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
         </div>
@@ -113,8 +106,8 @@
     .playlist {
         cursor: pointer;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
-        flex: 1 1 calc(25% - 40px); /* Flexible, 4 items per row */
-        max-width: calc(25% - 40px);
+        flex: 1 1 calc(33.333% - 40px); /* Flexible, 3 items per row */
+        max-width: calc(33.333% - 40px);
     }
     .playlist img {
         width: 100%;
