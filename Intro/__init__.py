@@ -51,8 +51,8 @@ class Player(BasePlayer):
                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']], widget=widgets.RadioSelectHorizontal)
 
     # ----- Pleasure & Arousal ----- #
-    pleasure = models.IntegerField(label="test", choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']], widget=widgets.RadioSelectHorizontal)
-    arousal = models.IntegerField(label="test", choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']], widget=widgets.RadioSelectHorizontal)
+    pleasure = models.IntegerField(label="test", choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
+    arousal = models.IntegerField(label="test", choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
 
     # ----- Mental Fatigue ----- #
     mf1 = models.IntegerField(label="If I were to do something right now, I could keep my thoughts focused on it.",
