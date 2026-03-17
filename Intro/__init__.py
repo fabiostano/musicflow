@@ -1,6 +1,5 @@
 
 from otree.api import *
-import random
 c = cu
 
 doc = ''
@@ -87,8 +86,11 @@ class MusicSelection(Page):
     def before_next_page(player, timeout_happened):
         player.participant.playlist = player.selected_playlist
 
-        treat_order = ['music', 'control']
-        random.shuffle(treat_order)
-        player.participant.treat_order = treat_order
+        # Alternating assignment by participant position in session:
+        # odd -> music first, even -> control first
+        if player.id_in_subsession % 2 == 1:
+            player.participant.treat_order = ['music', 'control']
+        else:
+            player.participant.treat_order = ['control', 'music']
 
 page_sequence = [Welcome, IntroQuestionnaire, StateQuestionnaire, MusicSelection]

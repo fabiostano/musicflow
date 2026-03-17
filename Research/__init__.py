@@ -47,6 +47,11 @@ class Player(BasePlayer):
     notes = models.LongStringField(blank=True)
     load_time = models.IntegerField(blank=True)
 
+    # In-task experience sampling (5-minute popup)
+    esm_flow_focus = models.IntegerField(blank=True)
+    esm_flow_control = models.IntegerField(blank=True)
+    esm_flow_absorption = models.IntegerField(blank=True)
+
     selected_paper = models.StringField(
         choices=['Highlighting Strategies for Better Reading',
                  'Letting Machines Handle the Small Stuff',
@@ -217,7 +222,7 @@ class Instructions2(Page):
 
 class Task(Page):
     form_model = 'player'
-    form_fields = ['notes', 'load_time']
+    form_fields = ['notes', 'load_time', 'esm_flow_focus', 'esm_flow_control', 'esm_flow_absorption']
 
     def vars_for_template(player):
         paper_url_map = {
@@ -235,7 +240,7 @@ class Task(Page):
         return {"pdf_url": pdf_url,
                 "treatment": player.treatment,
                 "playlist": player.participant.playlist,
-                "trialTime": 10}
+                "trialTime": 15}
 
 class TaskQuestionnaire(Page):
     form_model = 'player'

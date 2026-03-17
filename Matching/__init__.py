@@ -51,6 +51,11 @@ class Player(BasePlayer):
     responses = models.LongStringField(blank=True)
     snippet_list = models.LongStringField(blank=True)
 
+    # In-task experience sampling (5-minute popup)
+    esm_flow_focus = models.IntegerField(blank=True)
+    esm_flow_control = models.IntegerField(blank=True)
+    esm_flow_absorption = models.IntegerField(blank=True)
+
     ### --- STATE Q --- ###
 
     # ----- Mental Readiness ----- #
@@ -196,7 +201,7 @@ class Instructions(Page):
 
 class Task(Page):
     form_model = 'player'
-    form_fields = ['load_time', 'responses']
+    form_fields = ['load_time', 'responses', 'esm_flow_focus', 'esm_flow_control', 'esm_flow_absorption']
 
     def vars_for_template(player):
         if player.round_number == 1:
@@ -213,7 +218,7 @@ class Task(Page):
             "departments": load_csv_list("departments.csv"),
             "supervisors": load_csv_list("supervisor_names.csv"),
             "addresses": load_csv_list("addresses.csv"),
-            "trialTime": 10*60,
+            "trialTime": 15*60,
             "playlist": player.participant.playlist,
             "treatment": player.treatment
         }
