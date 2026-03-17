@@ -100,6 +100,38 @@ class Player(BasePlayer):
     sfss9 = models.IntegerField(label="I found the experience extremely rewarding.",
                                 choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
 
+    # ----- FKS ----- #
+    fks1 = models.IntegerField(label="I felt just the right amount of challenge.",
+                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                               widget=widgets.RadioSelectHorizontal)
+    fks2 = models.IntegerField(label="My thoughts/activities ran fluidly and smoothly.",
+                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                               widget=widgets.RadioSelectHorizontal)
+    fks3 = models.IntegerField(label="I didn’t notice time passing.",
+                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                               widget=widgets.RadioSelectHorizontal)
+    fks4 = models.IntegerField(label="I had no difficulty concentrating.",
+                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                               widget=widgets.RadioSelectHorizontal)
+    fks5 = models.IntegerField(label="My mind was completely clear.",
+                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                               widget=widgets.RadioSelectHorizontal)
+    fks6 = models.IntegerField(label="I was totally absorbed in what I am doing.",
+                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                               widget=widgets.RadioSelectHorizontal)
+    fks7 = models.IntegerField(label="The right thoughts/movements occured of their own accord.",
+                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                               widget=widgets.RadioSelectHorizontal)
+    fks8 = models.IntegerField(label="I knew what I had to do each step of the way.",
+                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']],
+                               widget=widgets.RadioSelectHorizontal)
+    fks9 = models.IntegerField(label="I felt that I have everything under control.",
+                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                               widget=widgets.RadioSelectHorizontal)
+    fks10 = models.IntegerField(label="I was completely lost in thought",
+                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                                widget=widgets.RadioSelectHorizontal)
+
     # ----- Skill-Demand-Balance ----- #
     sdb1 = models.IntegerField(label="Compared to all other activities which I partake in, this one was…",
                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5']], widget=widgets.RadioSelectHorizontal)
