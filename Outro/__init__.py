@@ -290,4 +290,4 @@ class MusicType_pre(Page):
     form_fields = ['o_01', 'o_02', 'o_03', 'mt_o_01', 'mt_o_02', 'mt_o_03', 'mt_o_04', 'mt_o_05']
 
 
-page_sequence = [TraitQuestionnaire, MusicType_pre, Goodbye]
+page_sequence = [TraitQuestionnaire, Goodbye]
