@@ -2,6 +2,7 @@
 from otree.api import *
 import random
 import pandas as pd
+from pathlib import Path
 c = cu
 
 doc = ''
@@ -240,21 +241,30 @@ class Task(Page):
 
     def vars_for_template(player):
         paper_url_map = {
-            "Highlighting Strategies for Better Reading": "highlighting_strategies.pdf",
-            "Letting Machines Handle the Small Stuff": "ems_background.pdf",
-            "The Hidden Risks of Mental Health Apps": "mental_health_apps.pdf",
-            "Follow Your Daily Goals with Self-Voice Alarms": "self_voice.pdf",
-            "Voice-Based Online Dating Apps": "voice_dating.pdf",
-            "TikTok and Mental Health: Laughing Through Hard Times": "tik_tok_mental_health.pdf",
-            "Gen Z and Online Information Trust": "genz_truth.pdf",
-            "Gaming Without Sight: How the Blind Play Mainstream Games": "blind_gaming.pdf"
+            "Highlighting Strategies for Better Reading": "highlighting_strategies",
+            "Letting Machines Handle the Small Stuff": "ems_background",
+            "The Hidden Risks of Mental Health Apps": "mental_health_apps",
+            "Follow Your Daily Goals with Self-Voice Alarms": "self_voice",
+            "Voice-Based Online Dating Apps": "voice_dating",
+            "TikTok and Mental Health: Laughing Through Hard Times": "tik_tok_mental_health",
+            "Gen Z and Online Information Trust": "genz_truth",
+            "Gaming Without Sight: How the Blind Play Mainstream Games": "blind_gaming"
         }
         selected_paper = player.selected_paper
-        pdf_url = paper_url_map.get(selected_paper, "blind_gaming.pdf")
-        return {"pdf_url": pdf_url,
-                "treatment": player.treatment,
-                "playlist": player.participant.playlist,
-                "trialTime": 15}
+        paper_dir = paper_url_map.get(selected_paper, "blind_gaming")
+
+        img_dir = Path("_static") / "papers_img" / paper_dir
+        page_images = [
+            f"papers_img/{paper_dir}/{p.name}"
+            for p in sorted(img_dir.glob("page_*.png"))
+        ]
+
+        return {
+            "page_images": page_images,
+            "treatment": player.treatment,
+            "playlist": player.participant.playlist,
+            "trialTime": 15,
+        }
 
 class TaskQuestionnaire(Page):
     form_model = 'player'
