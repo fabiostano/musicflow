@@ -18,25 +18,19 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 {{ if playlist == 'lofi.mp3'}}
-    <audio id="background-audio" autoplay loop>
+    <audio id="background-audio" autoplay>
         <source src="{% static 'music/new/lofi.mp3' %}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 {{ endif }}
 {{ if playlist == 'ambient.mp3'}}
-    <audio id="background-audio" autoplay loop>
-        <source src="{% static 'music/new/ambient.mp3' %}" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-{{ endif }}
-{{ if playlist == 'classical.mp3'}}
-    <audio id="background-audio" autoplay loop>
+    <audio id="background-audio" autoplay>
         <source src="{% static 'music/new/ambient.mp3' %}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 {{ endif }}
 {{ if playlist == 'house.mp3'}}
-    <audio id="background-audio" autoplay loop>
+    <audio id="background-audio" autoplay>
         <source src="{% static 'music/new/house.mp3' %}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
@@ -91,7 +85,8 @@
 
         setTimeout(function(){
             // Stop Music
-            document.getElementById('background-audio').pause();
+            const audio = document.getElementById('background-audio');
+            if (audio) audio.pause();
 
             taskField.style.display = "none";
             taskOverField.style.display = "block";
@@ -104,6 +99,15 @@
     }
 
     jQuery(document).ready( function() {
+        const audio = document.getElementById('background-audio');
+        if (audio) {
+            audio.currentTime = 420;
+            audio.addEventListener('loadedmetadata', function () {
+                if (audio.duration > 420) {
+                    audio.currentTime = 420;
+                }
+            });
+        }
         let nextBtn = document.getElementById("nextbtn");
         nextBtn.disabled = true;
         nextBtn.style.display = "none";

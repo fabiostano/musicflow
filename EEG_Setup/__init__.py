@@ -52,7 +52,7 @@ class RestEyesOpen_Music(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return {
-            "playlist": 'lofi.mp3',
+            "playlist": getattr(player.participant, 'playlist', 'lofi.mp3'),
             "duration": C.DURATION
         }
 
@@ -64,7 +64,7 @@ class RestEyesOpen_ASSR_attended(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return {
-            "playlist": 'lofi.mp3',
+            "playlist": getattr(player.participant, 'playlist', 'lofi.mp3'),
             "duration": 30
         }
 
@@ -75,7 +75,7 @@ class RestEyesOpen_ASSR_ignored(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return {
-            "playlist": 'lofi.mp3',
+            "playlist": getattr(player.participant, 'playlist', 'lofi.mp3'),
             "duration": 30
         }
 

@@ -26,21 +26,21 @@
         <div class="playlist" data-music="ambient.mp3">
             <img src="{% static 'music/new/ambient.png' %}" alt="Ambient Playlist">
             <audio controls preload="metadata">
-                <source src="{% static 'music/new/ambient.mp3' %}#t=30,40" type="audio/mpeg">
+                <source src="{% static 'music/new/ambient.mp3' %}" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
         </div>
         <div class="playlist" data-music="house.mp3">
             <img src="{% static 'music/new/house.png' %}" alt="House Playlist">
             <audio controls preload="metadata">
-                <source src="{% static 'music/new/house.mp3' %}#t=30,40" type="audio/mpeg">
+                <source src="{% static 'music/new/house.mp3' %}" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
         </div>
         <div class="playlist" data-music="lofi.mp3">
             <img src="{% static 'music/new/lofi.png' %}" alt="Lofi Playlist">
             <audio controls preload="metadata">
-                <source src="{% static 'music/new/lofi.mp3' %}#t=30,40" type="audio/mpeg">
+                <source src="{% static 'music/new/lofi.mp3' %}" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
         </div>
@@ -59,6 +59,22 @@
     const playlists = document.querySelectorAll('.playlist');
     const nextButton = document.getElementById('next-button');
     let selectedPlaylist = null;
+
+    const previewStartSeconds = 420;
+
+    document.querySelectorAll('.playlist audio').forEach(audio => {
+        audio.addEventListener('loadedmetadata', () => {
+            if (audio.duration > previewStartSeconds) {
+                audio.currentTime = previewStartSeconds;
+            }
+        });
+
+        audio.addEventListener('play', () => {
+            if (audio.currentTime < previewStartSeconds && audio.duration > previewStartSeconds) {
+                audio.currentTime = previewStartSeconds;
+            }
+        });
+    });
 
     // Handle playlist selection
     playlists.forEach(playlist => {

@@ -69,12 +69,6 @@ class Player(BasePlayer):
         choices=[1, 2, 3, 4, 5, 6, 7], widget=widgets.RadioSelectHorizontal)
 
     # ------ Domain Expertise ------ #
-    domain_exp_transcription = models.IntegerField(
-        label="I am experienced in transcribing snippets of text.",
-        choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']], widget=widgets.RadioSelectHorizontal)
-    domain_exp_typing = models.IntegerField(
-        label="I am a fast typer.",
-        choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']], widget=widgets.RadioSelectHorizontal)
     domain_exp_research = models.IntegerField(
         label="I am experienced in reading and working with scientific papers.",
         choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']], widget=widgets.RadioSelectHorizontal)
@@ -233,7 +227,7 @@ class TraitQuestionnaire(Page):
         random.shuffle(ext_fields)
         all_fields += ext_fields
 
-        domain_fields = ['domain_exp_transcription', 'domain_exp_typing', 'domain_exp_research', 'domain_exp_reading']
+        domain_fields = ['domain_exp_research', 'domain_exp_reading']
         random.shuffle(domain_fields)
         all_fields += domain_fields
 

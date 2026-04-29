@@ -65,10 +65,10 @@ class Player(BasePlayer):
                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']], widget=widgets.RadioSelectHorizontal)
 
 
-class Welcome(Page):
+class GDPRInfo(Page):
     form_model = 'player'
 
-class StudyExplanation(Page):
+class Welcome(Page):
     form_model = 'player'
 
 class IntroQuestionnaire(Page):
@@ -93,4 +93,4 @@ class MusicSelection(Page):
         else:
             player.participant.treat_order = ['control', 'music']
 
-page_sequence = [Welcome, IntroQuestionnaire, StateQuestionnaire, MusicSelection]
+page_sequence = [GDPRInfo, Welcome, IntroQuestionnaire, StateQuestionnaire, MusicSelection]

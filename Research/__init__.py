@@ -206,11 +206,6 @@ class Instructions1(Page):
 
     def before_next_page(player, timeout_happened):
         player.participant.paper_r1 = player.selected_paper
-
-        treatments = ['music', 'control']
-        random.shuffle(treatments)
-
-        player.participant.treat_order = treatments
         player.treatment = player.participant.treat_order[0]
 
 
