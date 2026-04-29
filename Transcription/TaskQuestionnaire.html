@@ -9,6 +9,11 @@
 {{ endblock }}
 
 {{ block content }}
+<style>
+    table.music-control-table tr > *:last-child {
+        border-left: 2px solid #ccc;
+    }
+</style>
     <div class="survey-container">
             <h4>Please state how much the following statements describe your experience during your work on the task.</h4>
     </div>
@@ -139,7 +144,7 @@
     </div>
 
     <div class="survey-container">
-        <table class="table mytable" frame="void" style="width:100%; ">
+        <table class="table mytable music-control-table" frame="void" style="width:100%; ">
             <tr>
                 <th></th>
                 <th style="text-align:center"> Strongly Disagree </th>
@@ -157,7 +162,7 @@
                     <td align="left" style="width:33%">{{ field.label }}</td>
 
                     {% for choice in field %}
-                        <td align="center" {% if forloop.last %}style="border-left: 2px solid #ccc;"{% endif %}>{{ choice }}</td>
+                        <td align="center">{{ choice }}</td>
                     {% endfor %}
                 </tr>
             {% endif %}
