@@ -186,7 +186,7 @@
                     <td align="left" style="width:33%">{{ field.label }}</td>
 
                     {% for choice in field %}
-                        <td align="center" >{{ choice }}</td>
+                        <td align="center" {% if forloop.last %}style="border-left: 2px solid #ccc;"{% endif %}>{{ choice }}</td>
                     {% endfor %}
                 </tr>
             {% endif %}

@@ -172,7 +172,7 @@
                 <th>  </th>
                 <th>  </th>
                 <th style="text-align:center"> Strongly Agree </th>
-                <th style="text-align:center"> There was no Music </th>
+                <th style="text-align:center; border-left: 2px solid #ccc;"> There was no Music </th>
             </tr>
         {% for field in form %}
             {% if field.id.startswith("id_control_music") %}
@@ -180,7 +180,7 @@
                     <td align="left" style="width:33%">{{ field.label }}</td>
 
                     {% for choice in field %}
-                        <td align="center" >{{ choice }}</td>
+                        <td align="center" {% if forloop.last %}style="border-left: 2px solid #ccc;"{% endif %}>{{ choice }}</td>
                     {% endfor %}
                 </tr>
             {% endif %}
