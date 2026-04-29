@@ -174,9 +174,9 @@ class Player(BasePlayer):
     control_text_interest = models.IntegerField(label="I thought the paper was an interesting  read.",
                                                 choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']], widget=widgets.RadioSelectHorizontal)
     control_music_liking = models.IntegerField(label="I enjoyed the background music.",
-                                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6']], widget=widgets.RadioSelectHorizontal)
+                                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7'], [8, '8']], widget=widgets.RadioSelectHorizontal)
     control_music_turnoff = models.IntegerField(label="If it would have been possible, I would have turned off the music.",
-                                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6']], widget=widgets.RadioSelectHorizontal)
+                                               choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7'], [8, '8']], widget=widgets.RadioSelectHorizontal)
 
     # ----- ESM disruption checks ----- #
     esm_disrupt_focus = models.IntegerField(
