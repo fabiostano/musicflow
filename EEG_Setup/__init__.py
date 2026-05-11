@@ -3,6 +3,17 @@ from otree.api import *
 c = cu
 
 doc = ''
+
+
+def get_assr_playlist(playlist):
+    assr_map = {
+        'ambient.mp3': 'ambient_assr.mp3',
+        'house.mp3': 'house_assr.mp3',
+        'lofi.mp3': 'lofi_assr.mp3',
+    }
+    return assr_map.get(playlist, 'lofi_assr.mp3')
+
+
 class C(BaseConstants):
     NAME_IN_URL = 'EEG'
     PLAYERS_PER_GROUP = None
@@ -63,8 +74,10 @@ class RestEyesOpen_ASSR_attended(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+        selected_playlist = getattr(player.participant, 'playlist', 'lofi.mp3')
         return {
-            "playlist": getattr(player.participant, 'playlist', 'lofi.mp3'),
+            "playlist": selected_playlist,
+            "assr_playlist": get_assr_playlist(selected_playlist),
             "duration": 30
         }
 
@@ -74,8 +87,10 @@ class RestEyesOpen_ASSR_ignored(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+        selected_playlist = getattr(player.participant, 'playlist', 'lofi.mp3')
         return {
-            "playlist": getattr(player.participant, 'playlist', 'lofi.mp3'),
+            "playlist": selected_playlist,
+            "assr_playlist": get_assr_playlist(selected_playlist),
             "duration": 30
         }
 
