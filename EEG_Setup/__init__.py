@@ -7,11 +7,11 @@ doc = ''
 
 def get_assr_playlist(playlist):
     assr_map = {
-        'ambient.mp3': 'ambient_assr.mp3',
-        'house.mp3': 'house_assr.mp3',
-        'lofi.mp3': 'lofi_assr.mp3',
+        'ambient.mp3': 'music/new/ambient_assr.mp3',
+        'house.mp3': 'music/new/house_assr.mp3',
+        'lofi.mp3': 'music/new/lofi_assr.mp3',
     }
-    return assr_map.get(playlist, 'lofi_assr.mp3')
+    return assr_map.get(playlist, 'music/new/lofi_assr.mp3')
 
 
 class C(BaseConstants):
