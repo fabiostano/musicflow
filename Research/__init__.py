@@ -48,14 +48,6 @@ class Player(BasePlayer):
     notes = models.LongStringField(blank=True)
     load_time = models.IntegerField(blank=True)
 
-    # In-task experience sampling (popups at minute 5 and 10)
-    esm5_fks6 = models.IntegerField(blank=True)
-    esm5_fks8 = models.IntegerField(blank=True)
-    esm5_fks9 = models.IntegerField(blank=True)
-    esm10_fks6 = models.IntegerField(blank=True)
-    esm10_fks8 = models.IntegerField(blank=True)
-    esm10_fks9 = models.IntegerField(blank=True)
-
     selected_paper = models.StringField(
         choices=['Highlighting Strategies for Better Reading',
                  'Letting Machines Handle the Small Stuff',
@@ -178,18 +170,6 @@ class Player(BasePlayer):
     control_music_turnoff = models.IntegerField(label="If it would have been possible, I would have turned off the music.",
                                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7'], [8, '8']], widget=widgets.RadioSelectHorizontal)
 
-    # ----- ESM disruption checks ----- #
-    esm_disrupt_focus = models.IntegerField(
-        label="The three questions that came as a check-in during the task were disrupting my focus.",
-        choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
-        widget=widgets.RadioSelectHorizontal,
-    )
-    esm_refocus_easy = models.IntegerField(
-        label="It was easy for me to get back in focus after answering the three questions.",
-        choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
-        widget=widgets.RadioSelectHorizontal,
-    )
-
 
 class Instructions1(Page):
     form_model = 'player'
@@ -232,7 +212,7 @@ class Instructions2(Page):
 
 class Task(Page):
     form_model = 'player'
-    form_fields = ['notes', 'load_time', 'esm5_fks6', 'esm5_fks8', 'esm5_fks9', 'esm10_fks6', 'esm10_fks8', 'esm10_fks9']
+    form_fields = ['notes', 'load_time']
 
     def vars_for_template(player):
         paper_url_map = {
@@ -275,8 +255,7 @@ class TaskQuestionnaire(Page):
         random.shuffle(mw_fields)
         all_fields += mw_fields
 
-        all_fields += ['tlx', 'control_text_interest', 'control_music_liking', 'control_music_turnoff',
-                       'esm_disrupt_focus', 'esm_refocus_easy']
+        all_fields += ['tlx', 'control_text_interest', 'control_music_liking', 'control_music_turnoff']
 
         return all_fields
 
