@@ -267,10 +267,6 @@ class TraitQuestionnaire(Page):
         random.shuffle(mwt_fields)
         all_fields += mwt_fields
 
-        mt_g_fields = ['mt_g_01', 'mt_g_02', 'mt_g_03', 'mt_g_04']
-        random.shuffle(mt_g_fields)
-        all_fields += mt_g_fields
-
         return all_fields
 
 class MusicType(Page):
