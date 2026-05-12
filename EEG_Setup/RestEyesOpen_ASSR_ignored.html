@@ -99,15 +99,6 @@
     }
 
     jQuery(document).ready(function() {
-        const audio = document.getElementById('background-audio');
-        if (audio) {
-            audio.currentTime = 420;
-            audio.addEventListener('loadedmetadata', function () {
-                if (audio.duration > 420) {
-                    audio.currentTime = 420;
-                }
-            });
-        }
         const nextBtn = document.getElementById("nextbtn");
         nextBtn.disabled = true;
         nextBtn.style.display = "none";
