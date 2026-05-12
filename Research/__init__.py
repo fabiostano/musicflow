@@ -170,6 +170,26 @@ class Player(BasePlayer):
     control_music_turnoff = models.IntegerField(label="If it would have been possible, I would have turned off the music.",
                                                choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7'], [8, '8']], widget=widgets.RadioSelectHorizontal)
 
+    # ----- Boredom ----- #
+    bd1 = models.IntegerField(label="Time was passing by slower than ususal.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                              widget=widgets.RadioSelectHorizontal)
+    bd2 = models.IntegerField(label="I was stuck in a situation that I felt was irrelevant.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                              widget=widgets.RadioSelectHorizontal)
+    bd3 = models.IntegerField(label="Everything seemed repetitive and routine to me.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                              widget=widgets.RadioSelectHorizontal)
+    bd4 = models.IntegerField(label="I felt bored.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                              widget=widgets.RadioSelectHorizontal)
+    bd5 = models.IntegerField(label="I seemed to be forced to do things that have no value to me.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                              widget=widgets.RadioSelectHorizontal)
+    bd6 = models.IntegerField(label="I wished I were doing something more exciting.",
+                              choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+                              widget=widgets.RadioSelectHorizontal)
+
 
 class Instructions1(Page):
     form_model = 'player'
@@ -254,6 +274,10 @@ class TaskQuestionnaire(Page):
         mw_fields = ['mws1', 'mws2', 'mws3', 'mws4', 'mws5', 'mws6']
         random.shuffle(mw_fields)
         all_fields += mw_fields
+
+        bd_fields = ['bd1', 'bd2', 'bd3', 'bd4', 'bd5', 'bd6']
+        random.shuffle(bd_fields)
+        all_fields += bd_fields
 
         all_fields += ['tlx', 'control_text_interest', 'control_music_liking', 'control_music_turnoff']
 
