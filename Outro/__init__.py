@@ -1,4 +1,3 @@
-
 from otree.api import *
 from otree.api import models, widgets
 
@@ -206,6 +205,39 @@ class Player(BasePlayer):
     mt_o_04 = models.LongStringField(label="To which kind of music do you listen to at work? To which specifically not?", blank=True)
     mt_o_05 = models.LongStringField(label="When do you listen to music at work? When specifically not?", blank=True)
 
+    music_at_work_yesno = models.StringField(
+        label="Do you sometimes listen to music at work?",
+        choices=['Yes', 'No'],
+        widget=widgets.RadioSelectHorizontal,
+    )
+    music_at_work_reason = models.LongStringField(
+        label="Why do you (not) listen to music at work?",
+        blank=True,
+    )
+    music_change_research = models.LongStringField(
+        label="How did the music change your experience in the Research Paper Reading Task? Did it help? Did it hurt?",
+        blank=True,
+    )
+    music_change_matching = models.LongStringField(
+        label="How did the music change your experience in the Data Checking Task? Did it help? Did it hurt?",
+        blank=True,
+    )
+    flow_music_enter = models.IntegerField(
+        label="The music helped me enter a Flow state (i.e. it was easier or faster to get into Flow).",
+        choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+        widget=widgets.RadioSelectHorizontal,
+    )
+    flow_music_boost = models.IntegerField(
+        label="The music boosted my Flow state (i.e. it made Flow more intense).",
+        choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+        widget=widgets.RadioSelectHorizontal,
+    )
+    flow_music_maintain = models.IntegerField(
+        label="The music helped me to maintain a Flow state (i.e. I could stay longer in Flow).",
+        choices=[[1, '1'], [2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6'], [7, '7']],
+        widget=widgets.RadioSelectHorizontal,
+    )
+
 
 class ThankYou(Page):
     form_model = 'player'
@@ -284,4 +316,17 @@ class MusicType_pre(Page):
     form_fields = ['o_01', 'o_02', 'o_03', 'mt_o_01', 'mt_o_02', 'mt_o_03', 'mt_o_04', 'mt_o_05']
 
 
-page_sequence = [TraitQuestionnaire, Goodbye]
+class MusicExperience(Page):
+    form_model = 'player'
+    form_fields = [
+        'music_at_work_yesno',
+        'music_at_work_reason',
+        'music_change_research',
+        'music_change_matching',
+        'flow_music_enter',
+        'flow_music_boost',
+        'flow_music_maintain',
+    ]
+
+
+page_sequence = [TraitQuestionnaire, MusicExperience, Goodbye]
